@@ -6,7 +6,7 @@
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    @apply bg-background font-body text-secondary-900 antialiased;
+    @apply bg-white font-body text-secondary-800 antialiased;
   }
   h1, h2, h3, h4 { @apply font-display; }
 }
@@ -42,15 +42,15 @@
     @apply inline-block px-3 py-1 rounded-full text-xs font-semibold;
   }
   .glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply bg-primary-900/40 backdrop-blur-md border border-primary-700/40;
   }
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f8fafc; }
-::-webkit-scrollbar-thumb { background: #0ea5e9; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+::-webkit-scrollbar-track { background: #f0f4f8; }
+::-webkit-scrollbar-thumb { background: #0284c7; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #0369a1; }
 
 /* Page transition */
 .page-enter { animation: slideUp 0.4s ease-out; }
@@ -70,18 +70,32 @@
 
 /* Pattern background */
 .pattern-bg {
-  background-color: #f8fafc;
+  background-color: #ffffff;
   background-image:
-    radial-gradient(circle at 25% 25%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(3, 105, 161, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 25% 25%, rgba(2, 132, 199, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(3, 105, 161, 0.03) 0%, transparent 50%);
+}
+/* dotted background pattern */
+.dotted-bg {
+  background-color: #F9FAFB;
+  background-image: 
+    radial-gradient(#D1D5DB 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* dotted background pattern - dark version for hero */
+.dotted-bg-dark {
+  background-image: 
+    radial-gradient(rgba(255,255,255,0.12) 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
 }
 
 /* Prose Styling for Blog Content */
 .prose {
-  @apply text-secondary-700 leading-relaxed;
+  @apply text-secondary-600 leading-relaxed;
 }
 .prose h1, .prose h2, .prose h3 {
-  @apply font-display font-bold text-secondary-900 mt-8 mb-4;
+  @apply font-display font-bold text-secondary-800 mt-8 mb-4;
 }
 .prose h1 { @apply text-3xl; }
 .prose h2 { @apply text-2xl; }
@@ -90,7 +104,7 @@
 .prose ul { @apply list-disc pl-6 mb-4; }
 .prose ol { @apply list-decimal pl-6 mb-4; }
 .prose li { @apply mb-2; }
-.prose strong { @apply text-secondary-900 font-bold; }
+.prose strong { @apply text-secondary-800 font-bold; }
 .prose a { @apply text-primary-600 underline hover:text-primary-700; }
 
 /* Quill Overrides */

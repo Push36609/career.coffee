@@ -34,12 +34,12 @@ export default function Blogs() {
 
   return (
     <div className="">
-      <section className="py-20 bg-secondary-gradient text-center relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="relative max-w-3xl mx-auto px-4">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-white mb-4">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-secondary-900 mb-4">
             Our <span className="text-gradient">Knowledge Hub</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-white/70 text-xl">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-secondary-600 text-xl">
             Expert articles, career guides, exam updates, and study abroad tips.
           </motion.p>
         </div>

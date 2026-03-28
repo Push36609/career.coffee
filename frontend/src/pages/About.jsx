@@ -24,18 +24,18 @@ export default function About() {
   return (
     <div className="" >
       {/* Hero */}
-      <section className="relative py-24 bg-secondary-gradient overflow-hidden">
+      <section className="relative py-24 bg-gradient-to-br from-primary-50 to-blue-50 overflow-hidden dotted-bg">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+          <div className="absolute top-20 right-20 w-64 h-64 bg-primary-200/30 rounded-full blur-3xl animate-pulse-slow"></div>
         </div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-primary-400 font-semibold uppercase tracking-widest text-sm mb-4">Who We Are</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-primary-600 font-semibold uppercase tracking-widest text-sm mb-4">Who We Are</motion.p>
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="font-display text-5xl lg:text-6xl font-bold text-white mb-6">
+            className="font-display text-5xl lg:text-6xl font-bold text-secondary-900 mb-6">
             About <span className="text-gradient">Career Coffee</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className="text-white/70 text-xl leading-relaxed">
+            className="text-secondary-600 text-xl leading-relaxed">
             Founded with a passion for empowering India's youth, we are a premier career counselling firm dedicated to helping students, parents, and professionals make informed, confident career decisions.
           </motion.p>
         </div>
@@ -48,7 +48,7 @@ export default function About() {
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <p className="text-primary-500 font-semibold uppercase tracking-widest text-sm mb-3">Our Story</p>
               <h2 className="font-sens text-2xl font-bold text-secondary-900 mb-6">Career Coffee-the unfiltered career discussion is a trusted destination for students parents and professionals seeking clarity, confidence, and direction in their educational and professional journeys.</h2>
-              <div className="space-y-4 text-secondary-600 leading-relaxed">
+              <div className="space-y-4 text-secondary-700 leading-relaxed">
                 <p>Career Coffee-the unfiltered career discussion is a trusted destination for meaningful, unfiltered career counselling and Institutional guidance. We specialize in providing personalized career solutions for students and professionals, helping them make informed academic and professional decisions.Our services include stream selection, entrance exam planning, college admissions support, profile building, personality development, and interview preparation—ensuring a holistic approach to career growth.</p>
                 <p>At Career Coffee, we believe that effective career counselling goes beyond standard advice. It requires honest conversations, deep understanding of individual aspirations, and alignment with personality traits. Our counselling approach is designed to create a comfortable environment where individuals can openly express their goals, enabling us to guide them with clarity and precision.</p>
                 <p>With a cumulative experience of over four decades, our team also extends its expertise to institutional support and compliance. We assist educational institutions in navigating academic frameworks, accreditation processes, and regulatory requirements while maintaining quality and value-driven education systems. Our focus is on strengthening institutional capabilities alongside student success.
@@ -75,7 +75,7 @@ export default function About() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 bg-secondary-900">
+      <section className="py-16 bg-gray-50 border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             {[
@@ -83,9 +83,9 @@ export default function About() {
               { title: '🌟 Our Vision', text: 'A future where every Indian student makes career decisions with confidence, clarity, and courage — guided by data-driven insights and compassionate expert mentorship.' },
             ].map(item => (
               <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                className="glass rounded-2xl p-8">
-                <h3 className="font-display text-2xl font-bold text-white mb-4">{item.title}</h3>
-                <p className="text-white/70 leading-relaxed">{item.text}</p>
+                className="glass rounded-2xl p-8 bg-white border border-gray-200">
+                <h3 className="font-display text-2xl font-bold text-secondary-900 mb-4">{item.title}</h3>
+                <p className="text-secondary-600 leading-relaxed">{item.text}</p>
               </motion.div>
             ))}
           </div>

@@ -39,32 +39,32 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center bg-hero-gradient overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-hero-gradient overflow-hidden dotted-bg">
         {/* Decorative circles */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary-600/30 rounded-full blur-[100px] animate-pulse-slow"></div>
-          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-primary-500/20 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-800/20 rounded-full blur-[120px]"></div>
+          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary-600/15 rounded-full blur-[100px] animate-pulse-slow"></div>
+          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-primary-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-700/10 rounded-full blur-[120px]"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div variants={container} initial="hidden" animate="show">
               <motion.div variants={fadeUp}
-                className="inline-flex items-center gap-2 bg-primary-500/20 border border-primary-500/30 text-primary-300 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                className="inline-flex items-center gap-2 bg-primary-100 border border-primary-200 text-primary-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
                 <Bell size={14} /> All India Exam Alerts &amp; Career Guidance
               </motion.div>
-              <motion.h1 variants={fadeUp} className="font-display text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6">
+              <motion.h1 variants={fadeUp} className="font-display text-5xl lg:text-6xl xl:text-7xl font-bold text-secondary-900 leading-tight mb-6">
                 Brew Your <span className="text-gradient">Perfect</span> Career Path
               </motion.h1>
-              <motion.p variants={fadeUp} className="text-white/70 text-xl leading-relaxed mb-8 max-w-lg">
+              <motion.p variants={fadeUp} className="text-secondary-600 text-xl leading-relaxed mb-8 max-w-lg">
                 Advanced career counselling, real-time exam alerts, and personalized admissions guidance to help students and parents across India make the right choices.
               </motion.p>
               <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
                 <Link to="/appointment" className="btn-primary flex items-center gap-2 text-base px-8 py-4">
                   Book Free Consultation <ArrowRight size={18} />
                 </Link>
-                <Link to="/services" className="btn-outline border-white text-white hover:bg-white hover:text-secondary-900 text-base px-8 py-4">
+                <Link to="/services" className="btn-outline border-secondary-900 text-secondary-900 hover:bg-secondary-900 hover:text-white text-base px-8 py-4">
                   Explore Services
                 </Link>
               </motion.div>
@@ -72,37 +72,37 @@ export default function Home() {
               <motion.div variants={fadeUp} className="flex items-center gap-4 mt-10">
                 <div className="flex -space-x-2">
                   {['👩‍🎓', '👨‍🎓', '👩‍💼', '👨‍💼'].map((e, i) => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-primary-gradient border-2 border-secondary-900 flex items-center justify-center text-sm">{e}</div>
+                    <div key={i} className="w-10 h-10 rounded-full bg-primary-gradient border-2 border-white flex items-center justify-center text-sm">{e}</div>
                   ))}
                 </div>
                 <div>
                   <div className="flex gap-0.5">{[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />)}</div>
-                  <p className="text-white/60 text-sm">Trusted by 10000+ students</p>
+                  <p className="text-secondary-600 text-sm">Trusted by 10000+ students</p>
                 </div>
               </motion.div>
             </motion.div>
 
             {/* Hero card */}
             <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
-              className="relative hidden lg:block">
-              <div className="relative w-full max-w-md mx-auto">
-                <div className="glass rounded-3xl p-8 animate-float">
+              className="relative hidden lg:block ">
+              <div className="relative w-full max-w-md mx-auto bg-gradient-to-br from-primary-200 to-secondary-200 rounded-3xl p-8">
+                <div className="glass rounded-3xl p-8 animate-float bg-primary-700/30 border border-primary-700/50">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="w-12 h-12 bg-primary-gradient rounded-2xl flex items-center justify-center text-2xl">☕</div>
                     <div>
                       <p className="text-white font-semibold">Career Counselling Session</p>
-                      <p className="text-white/60 text-sm">Book your free consultation today!</p>
+                      <p className="text-primary-100 text-sm">Book your free consultation today!</p>
                     </div>
                   </div>
                   <div className="space-y-3 mb-6">
                     {['Engineering Stream Analysis', 'Aptitude Assessment Complete', 'Top 5 Colleges Shortlisted'].map((item, i) => (
-                      <div key={i} className="flex items-center gap-3 bg-white/10 rounded-xl p-3">
-                        <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center">✓</div>
-                        <span className="text-white/80 text-sm">{item}</span>
+                      <div key={i} className="flex items-center gap-3 bg-primary-700/30 rounded-xl p-3">
+                        <div className="w-6 h-6 bg-primary-400 rounded-full flex items-center justify-center">✓</div>
+                        <span className="text-white/90 text-sm">{item}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="bg-primary-500/20 rounded-xl p-3 border border-primary-500/30">
+                  <div className="bg-primary-400/20 rounded-xl p-3 border border-primary-400/30">
                     {/* <p className="text-primary-300 text-sm font-medium"> </p> */}
                   </div>
                 </div>
@@ -110,12 +110,12 @@ export default function Home() {
                 <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 3, repeat: Infinity }}
                   className="absolute -top-6 -right-6 glass rounded-2xl px-4 py-3">
                   <p className="text-white text-sm font-semibold">10000+ Students</p>
-                  <p className="text-primary-300 text-xs">Successfully Guided</p>
+                  <p className="text-primary-200 text-xs">Successfully Guided</p>
                 </motion.div>
                 <motion.div animate={{ y: [5, -5, 5] }} transition={{ duration: 3.5, repeat: Infinity }}
                   className="absolute -bottom-6 -left-6 glass rounded-2xl px-4 py-3">
                   <p className="text-white text-sm font-semibold">98% Effectiveness Rate</p>
-                  <p className="text-primary-300 text-xs">All India Admissions</p>
+                  <p className="text-primary-200 text-xs">All India Admissions</p>
                 </motion.div>
               </div>
             </motion.div>
@@ -124,15 +124,15 @@ export default function Home() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="py-16 bg-primary-gradient">
+      <section className="py-16 bg-gradient-to-r from-sky-100 to-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true }}
             className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map(({ value, label, icon: Icon }) => (
               <motion.div key={label} variants={fadeUp} className="text-center">
-                <Icon size={32} className="text-white/60 mx-auto mb-3" />
-                <div className="font-display text-4xl font-bold text-white mb-1">{value}</div>
-                <div className="text-white/70 text-sm font-medium">{label}</div>
+                <Icon size={32} className="text-primary-600 mx-auto mb-3" />
+                <div className="font-display text-4xl font-bold text-secondary-900 mb-1">{value}</div>
+                <div className="text-secondary-600 text-sm font-medium">{label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -171,14 +171,14 @@ export default function Home() {
 
       {/* ── Exam Alerts Preview ── */}
       {exams.length > 0 && (
-        <section className="py-20 bg-secondary-900">
+        <section className="py-20 bg-gray-50 border-y border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center justify-between mb-10">
               <div>
                 <p className="text-primary-400 font-semibold uppercase tracking-widest text-sm mb-2">Stay Updated</p>
-                <h2 className="font-display text-3xl font-bold text-white">All India Exam Alerts 🔔</h2>
+                <h2 className="font-display text-3xl font-bold text-secondary-900">All India Exam Alerts 🔔</h2>
               </div>
-              <Link to="/exam-alerts" className="mt-4 md:mt-0 btn-outline border-primary-400 text-primary-400 hover:bg-primary-400 hover:text-secondary-900">
+              <Link to="/exam-alerts" className="mt-4 md:mt-0 btn-outline border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white">
                 View All Exams
               </Link>
             </div>
@@ -192,12 +192,12 @@ export default function Home() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-white font-semibold truncate">{exam.name}</h3>
-                      <span className="badge bg-primary-500/20 text-primary-300 shrink-0">{exam.category}</span>
+                      <h3 className="text-secondary-900 font-semibold truncate">{exam.name}</h3>
+                      <span className="badge bg-primary-100 text-primary-700 shrink-0">{exam.category}</span>
                     </div>
-                    <p className="text-white/60 text-sm mt-1">{exam.description?.slice(0, 80)}...</p>
+                    <p className="text-secondary-600 text-sm mt-1">{exam.description?.slice(0, 80)}...</p>
                     {exam.exam_date && (
-                      <p className="text-primary-400 text-xs mt-2 font-medium">📅 Exam: {new Date(exam.exam_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                      <p className="text-blue-100 text-xs mt-2 font-medium">📅 Exam: {new Date(exam.exam_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                     )}
                   </div>
                 </motion.div>
@@ -227,7 +227,7 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="font-semibold text-secondary-900 text-sm">{t.name}</p>
-                      <p className="text-secondary-400 text-xs">{t.designation}</p>
+                      <p className="text-secondary-500 text-xs">{t.designation}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -279,7 +279,7 @@ export default function Home() {
       {/* <GoogleReviews /> */}
 
       {/* ── CTA ── */}
-      <section className="py-20 bg-primary-gradient">
+      <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">Ready to Brew Your Success?</h2>

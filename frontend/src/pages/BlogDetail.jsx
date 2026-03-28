@@ -19,23 +19,23 @@ export default function BlogDetail() {
   return (
     <div className="">
       {/* Hero */}
-      <section className="py-20 bg-secondary-gradient relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-primary-50 to-blue-50 relative overflow-hidden dotted-bg">
         <div className="absolute inset-0"><div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div></div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6">
-          <Link to="/blogs" className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 mb-6 transition-colors">
+          <Link to="/blogs" className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 mb-6 transition-colors">
             <ArrowLeft size={18} /> Back to Blogs
           </Link>
           {blog.category && (
             <div className="flex items-center gap-2 mb-4">
-              <Tag size={16} className="text-primary-400" />
-              <span className="text-primary-400 font-semibold text-sm">{blog.category}</span>
+              <Tag size={16} className="text-primary-600" />
+              <span className="text-primary-600 font-semibold text-sm">{blog.category}</span>
             </div>
           )}
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="font-display text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+            className="font-display text-4xl lg:text-5xl font-bold text-secondary-900 mb-6 leading-tight">
             {blog.title}
           </motion.h1>
-          <div className="flex flex-wrap items-center gap-6 text-white/60 text-sm">
+          <div className="flex flex-wrap items-center gap-6 text-secondary-600 text-sm">
             <div className="flex items-center gap-2"><User size={15} />{blog.author}</div>
             <div className="flex items-center gap-2"><Calendar size={15} />{new Date(blog.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
           </div>

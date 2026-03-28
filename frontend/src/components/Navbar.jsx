@@ -41,7 +41,7 @@ export default function Navbar() {
   const handleLogout = () => { logout(); navigate('/') }
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-secondary-900/95 backdrop-blur-md shadow-2xl' : 'bg-gradient-to-b from-secondary-900/80 to-transparent'
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-blue/95 backdrop-blur-md shadow-lg border-b border-gray-200' : 'bg-gradient-to-b from-white/80 to-transparent border-b border-gray-100'
       }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18 py-3">
@@ -51,8 +51,8 @@ export default function Navbar() {
               <img src="./gallery/logo.png" alt="Career Coffee Logo" className="w-full h-full object-contain rounded-full" />
             </div>
             <div> 
-              <div className="font-display text-lg font-bold text-white leading-tight">Career Coffee</div>
-              <div className="text-primary-300 text-xs font-medium tracking-widest uppercase"></div>
+              <div className="font-display text-lg font-bold text-secondary-900 leading-tight">Career Coffee</div>
+              <div className="text-primary-600 text-xs font-medium tracking-widest uppercase"></div>
             </div>
           </Link>
 
@@ -64,8 +64,8 @@ export default function Navbar() {
                 onMouseLeave={() => setActiveDropdown(null)}>
                 <Link to={link.path}
                   className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${location.pathname === link.path
-                    ? 'text-primary-300 bg-white/10'
-                    : 'text-white/80 hover:text-primary-300 hover:bg-white/10'
+                    ? 'text-primary-600 bg-primary-50'
+                    : 'text-secondary-600 hover:text-primary-600 hover:bg-primary-50'
                     }`}>
                   {link.label}
                   {link.dropdown && <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />}
@@ -73,10 +73,10 @@ export default function Navbar() {
                 {link.dropdown && activeDropdown === link.label && (
                   <motion.div
                     initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 mt-1 w-52 bg-secondary-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+                    className="absolute top-full left-0 mt-1 w-52 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
                     {link.dropdown.map(d => (
                       <Link key={d.label} to={d.path}
-                        className="block px-4 py-2.5 text-sm text-white/80 hover:text-primary-300 hover:bg-white/10 transition-colors">
+                        className="block px-4 py-2.5 text-sm text-secondary-600 hover:text-primary-600 hover:bg-primary-50 transition-colors">
                         {d.label}
                       </Link>
                     ))}
@@ -91,20 +91,20 @@ export default function Navbar() {
             {user ? (
               <div className="flex items-center gap-2">
                 {user.role === 'admin' ? (
-                  <Link to="/admin" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-primary-300 hover:bg-white/10 transition-colors">
+                  <Link to="/admin" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-primary-600 hover:bg-primary-50 transition-colors">
                     <LayoutDashboard size={16} /> Admin Panel
                   </Link>
                 ) : (
-                  <Link to="/dashboard" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-primary-300 hover:bg-white/10 transition-colors">
+                  <Link to="/dashboard" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-primary-600 hover:bg-primary-5-50 transition-colors">
                     {/* <LayoutDashboard size={16} /> Dashboard */}
                   </Link>
                 )}
-                <button onClick={handleLogout} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-400 hover:bg-white/10 transition-colors">
+                <button onClick={handleLogout} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
                   <LogOut size={16} /> Logout
                 </button>
               </div>
             ) : (
-              <Link to="/login" className="text-sm text-white/70 hover:text-primary-300 transition-colors px-3 py-2">Login</Link>
+              <Link to="/login" className="text-sm text-secondary-600 hover:text-primary-600 transition-colors px-3 py-2">Login</Link>
             )}
             <Link to="/appointment" className="btn-primary text-sm py-2.5 px-5">
               Book Appointment
@@ -113,7 +113,7 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <button onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors">
+            className="lg:hidden text-secondary-900 p-2 rounded-lg hover:bg-primary-50 transition-colors">
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -123,17 +123,17 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-secondary-900/98 backdrop-blur-md border-t border-white/10">
+            className="lg:hidden bg-white/98 backdrop-blur-md border-t border-gray-200">
             <div className="px-4 py-4 space-y-1">
               {navLinks.map(link => (
                 <div key={link.label}>
-                  <Link to={link.path} className="block px-3 py-2.5 rounded-lg text-white/80 hover:text-primary-300 hover:bg-white/10 font-medium transition-colors">
+                  <Link to={link.path} className="block px-3 py-2.5 rounded-lg text-secondary-600 hover:text-primary-600 hover:bg-primary-50 font-medium transition-colors">
                     {link.label}
                   </Link>
                   {link.dropdown && (
                     <div className="pl-4 space-y-1 mt-1">
                       {link.dropdown.map(d => (
-                        <Link key={d.label} to={d.path} className="block px-3 py-2 rounded-lg text-white/60 hover:text-primary-300 text-sm transition-colors">
+                        <Link key={d.label} to={d.path} className="block px-3 py-2 rounded-lg text-secondary-500 hover:text-primary-600 text-sm transition-colors">
                           {d.label}
                         </Link>
                       ))}
@@ -141,18 +141,18 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
-              <div className="pt-3 border-t border-white/10 space-y-2">
+              <div className="pt-3 border-t border-gray-200 space-y-2">
                 {user ? (
                   <>
                     {user.role === 'admin' ? (
-                      <Link to="/admin" className="block px-3 py-2 text-primary-300 font-medium">Admin Panel</Link>
+                      <Link to="/admin" className="block px-3 py-2 text-primary-600 font-medium">Admin Panel</Link>
                     ) : (
-                      <Link to="/dashboard" className="block px-3 py-2 text-primary-300 font-medium">Dashboard</Link>
+                      <Link to="/dashboard" className="block px-3 py-2 text-primary-600 font-medium">Dashboard</Link>
                     )}
-                    <button onClick={handleLogout} className="block w-full text-left px-3 py-2 text-red-400 font-medium">Logout</button>
+                    <button onClick={handleLogout} className="block w-full text-left px-3 py-2 text-red-600 font-medium">Logout</button>
                   </>
                 ) : (
-                  <Link to="/login" className="block px-3 py-2 text-white/70 font-medium">Login</Link>
+                  <Link to="/login" className="block px-3 py-2 text-secondary-600 font-medium">Login</Link>
                 )}
                 <Link to="/appointment" className="btn-primary block text-center text-sm">Book Appointment</Link>
               </div>

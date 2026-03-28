@@ -54,14 +54,14 @@ export default function Services() {
   return (
     <div className="">
       {/* Hero */}
-      <section className="py-24 bg-secondary-gradient text-center relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="absolute inset-0"><div className="absolute top-10 right-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"></div></div>
         <div className="relative max-w-4xl mx-auto px-4">
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-primary-400 font-semibold uppercase tracking-widest text-sm mb-4">What We Offer</motion.p>
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-white mb-5">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl lg:text-6xl font-bold text-secondary-900 mb-4">
             Our <span className="text-gradient">Services</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="text-white/70 text-xl">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-secondary-600 text-xl">
             Comprehensive career guidance services for every stage of your educational journey.
           </motion.p>
         </div>

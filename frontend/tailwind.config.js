@@ -50,7 +50,7 @@ export default {
       backgroundImage: {
         'primary-gradient': 'linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%)',
         'secondary-gradient': 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
-      'hero-gradient': 'linear-gradient(135deg, #f8fafc 0%, #e0f2fe 40%, #bae6fd 100%)'
+        'hero-gradient': 'linear-gradient(135deg, #f8fafc 0%, #e0f2fe 40%, #bae6fd 100%)'
       },
     },
   },

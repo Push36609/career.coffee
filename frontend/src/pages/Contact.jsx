@@ -25,7 +25,7 @@ export default function Contact() {
       
       if (form.method === 'whatsapp') {
         const text = `*New Contact Inquiry*\n\n*Name:* ${form.name}\n*Email:* ${form.email}\n*Phone:* ${form.phone || 'N/A'}\n*Subject:* ${form.subject || 'N/A'}\n\n*Message:* ${form.message}`
-        const whatsappUrl = `https://wa.me/916394619776?text=${encodeURIComponent(text)}`
+        const whatsappUrl = `https://wa.me/917217797832?text=${encodeURIComponent(text)}`
         window.open(whatsappUrl, '_blank')
         toast.success("Ready to send on WhatsApp!")
       } else {
@@ -41,12 +41,12 @@ export default function Contact() {
 
   return (
     <div className="">
-      <section className="py-20 bg-secondary-gradient text-center relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="relative max-w-3xl mx-auto px-4">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-white mb-4">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-secondary-900 mb-4">
             Get In <span className="text-gradient">Touch</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-white/70 text-xl">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-secondary-600 text-xl">
             Have questions? We're here to help. Reach out to us through any of these channels.
           </motion.p>
         </div>
@@ -62,9 +62,9 @@ export default function Contact() {
                 <div className="space-y-4">
                   {[
                     { icon: MapPin, text: 'Career Coffee, B-39, 1st Floor, Middle Circle, Connaught Place, New Delhi - 110001', label: 'Office Address' },
-                    { icon: Phone, text: '+91 63946 19776', label: 'Call & Helpline', href: 'tel:+916394619776' },
-                    { icon: Phone, text: '+91 63946 19776', label: 'WhatsApp Us', href: 'https://wa.me/916394619776', isWhatsApp: true },
-                    { icon: Mail, text: 'ppal36609@gmail.com', label: 'Email Us', href: 'mailto:ppal36609@gmail.com' },
+                    { icon: Phone, text: '+91 721 779 7832', label: 'Call & Helpline', href: 'tel:+917217797832' },
+                    { icon: Phone, text: '+91 721 779 7832', label: 'WhatsApp Us', href: 'https://wa.me/917217797832', isWhatsApp: true },
+                    { icon: Mail, text: 'info@careercoffee.in', label: 'Email Us', href: 'mailto:info@careercoffee.in' },
                   ].map(({ icon: Icon, text, label, href, isWhatsApp }) => (
                     <div key={label} className="flex items-start gap-3 group">
                       <div className={`w-10 h-10 ${isWhatsApp ? 'bg-green-500' : 'bg-primary-gradient'} rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>

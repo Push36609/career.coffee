@@ -38,16 +38,16 @@ export default function ExamAlerts({ initialTab = 'All Alerts' }) {
   return (
     <div className="">
       {/* Header */}
-      <section className="py-20 bg-secondary-gradient text-center relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="absolute inset-0"><div className="absolute top-10 left-10 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl animate-pulse-slow"></div></div>
         <div className="relative max-w-3xl mx-auto px-4">
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Bell size={30} className="text-white animate-float" />
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-white mb-4">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-secondary-900 mb-4">
             India's Top <span className="text-gradient">Updates & Alerts</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-white/70 text-xl">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-secondary-600 text-xl">
             Stay ahead with real-time notifications for every major exam, scholarship, and internship in India.
           </motion.p>
         </div>

@@ -69,7 +69,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary-gradient flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-blue-50 flex items-center justify-center px-4 relative overflow-hidden dotted-bg">
       {/* Decorative */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
@@ -85,19 +85,19 @@ export default function Login() {
               <Coffee size={32} className="text-white" />
             </div>
             <div>
-              <div className="font-display text-2xl font-bold text-white">CareerCoffee</div>
-              <div className="text-primary-400 text-xs tracking-widest uppercase font-medium">Admin & User Portal</div>
+              <div className="font-display text-2xl font-bold text-secondary-900">CareerCoffee</div>
+              <div className="text-primary-600 text-xs tracking-widest uppercase font-medium">Admin & User Portal</div>
             </div>
           </Link>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 shadow-2xl">
+        <div className="bg-white/80 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-lg">
           <AnimatePresence mode="wait">
             {!otpStep ? (
               /* ── STEP 1: Credentials ── */
               <motion.div key="credentials" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <h2 className="font-display text-2xl font-bold text-white text-center mb-2">Welcome Back</h2>
-                <p className="text-white/60 text-center text-sm mb-8">Sign in to access your dashboard</p>
+                <h2 className="font-display text-2xl font-bold text-secondary-900 text-center mb-2">Welcome Back</h2>
+                <p className="text-secondary-600 text-center text-sm mb-8">Sign in to access your dashboard</p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>

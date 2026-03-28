@@ -59,13 +59,13 @@ export default function Appointment() {
 
   return (
     <div className="">
-      <section className="py-20 bg-secondary-gradient text-center relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="absolute inset-0"><div className="absolute -top-20 -right-20 w-80 h-80 bg-primary-500/10 rounded-full blur-3xl animate-pulse-slow"></div></div>
         <div className="relative max-w-3xl mx-auto px-4">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-white mb-4">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-secondary-900 mb-4">
             Book an <span className="text-gradient">Appointment</span>
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-white/70 text-xl">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-secondary-600 text-xl">
             Schedule a free 30-minute consultation with our expert career counsellors.
           </motion.p>
         </div>
