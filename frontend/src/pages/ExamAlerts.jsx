@@ -38,7 +38,7 @@ export default function ExamAlerts({ initialTab = 'All Alerts' }) {
   return (
     <div className="">
       {/* Header */}
-      <section className="py-20 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
+      <section className="pt-20 pb-10 border-b-2 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="absolute inset-0"><div className="absolute top-10 left-10 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl animate-pulse-slow"></div></div>
         <div className="relative max-w-3xl mx-auto px-4">
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center mx-auto mb-4">

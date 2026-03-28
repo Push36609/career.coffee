@@ -54,7 +54,7 @@ export default function Services() {
   return (
     <div className="">
       {/* Hero */}
-      <section className="py-24 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
+      <section className="pt-24 pb-10 border-b-2 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="absolute inset-0"><div className="absolute top-10 right-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"></div></div>
         <div className="relative max-w-4xl mx-auto px-4">
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-primary-400 font-semibold uppercase tracking-widest text-sm mb-4">What We Offer</motion.p>
@@ -68,7 +68,7 @@ export default function Services() {
       </section>
 
       {/* Services */}
-      <section className="py-20 pattern-bg">
+      <section className="py-10 pattern-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true }} className="space-y-16">
             {services.map((svc, i) => (

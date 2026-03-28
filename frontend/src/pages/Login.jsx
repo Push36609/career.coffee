@@ -69,20 +69,25 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-blue-50 flex items-center justify-center px-4 relative overflow-hidden dotted-bg">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-blue-50 flex items-center justify-center px-4 py-10 relative overflow-hidden dotted-bg">
       {/* Decorative */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-400/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
       </div>
 
+      {/* Back to Home Button - Top Left */}
+      <Link to="/" className="absolute top-6 left-6 btn-primary hover:bg-white text-white hover:text-secondary-900 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 z-10">
+        ← Back to Home
+      </Link>
+
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
         className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex flex-col items-center gap-2">
-            <div className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center shadow-2xl glow-primary">
-              <Coffee size={32} className="text-white" />
+            <div className="bg-primary-gradient rounded-full flex items-center justify-center shadow-2xl glow-primary">
+              <img src="/gallery/logo.png" alt="CareerCoffee Logo" className='w-20 h-20 rounded-full'/>
             </div>
             <div>
               <div className="font-display text-2xl font-bold text-secondary-900">CareerCoffee</div>
@@ -101,19 +106,19 @@ export default function Login() {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
-                    <label className="block text-white/80 text-sm font-medium mb-1.5">User ID or Email</label>
+                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">User ID or Email</label>
                     <input required value={form.user_id} onChange={e => setForm(p => ({ ...p, user_id: e.target.value }))}
                       placeholder="Enter User ID or Email" autoComplete="username"
-                      className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
                   </div>
                   <div>
-                    <label className="block text-white/80 text-sm font-medium mb-1.5">Password</label>
+                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">Password</label>
                     <div className="relative">
                       <input required value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
                         type={showPass ? 'text' : 'password'} placeholder="Enter your password" autoComplete="current-password"
-                        className="w-full px-4 py-3 pr-12 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
+                        className="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-200 text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
                       <button type="button" onClick={() => setShowPass(!showPass)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors">
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-500 hover:text-secondary-700 transition-colors">
                         {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
@@ -124,10 +129,10 @@ export default function Login() {
                     {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <><LogIn size={18} /> Sign In</>}
                   </button>
 
-                  <div className="bg-primary-500/10 border border-primary-500/20 rounded-xl p-3 text-[11px] text-center">
-                    <p className="text-primary-300 font-bold mb-1 uppercase tracking-wider">Super Admin Login</p>
-                    <p className="text-white/60">User ID: <span className="text-white font-mono bg-white/5 px-1.5 rounded">admin</span></p>
-                    <p className="text-white/60">Password: <span className="text-white font-mono bg-white/5 px-1.5 rounded">36609ppal</span></p>
+                  <div className="bg-primary-50 border border-primary-300 rounded-xl p-3 text-[11px] text-center">
+                    <p className="text-primary-700 font-bold mb-1 uppercase tracking-wider">Super Admin Login</p>
+                    <p className="text-secondary-600">User ID: <span className="text-secondary-900 font-mono bg-primary-100 px-1.5 rounded">admin</span></p>
+                    <p className="text-secondary-600">Password: <span className="text-secondary-900 font-mono bg-primary-100 px-1.5 rounded">36609ppal</span></p>
                   </div>
                 </form>
               </motion.div>
@@ -138,18 +143,18 @@ export default function Login() {
                   <div className="w-16 h-16 bg-primary-500/20 border border-primary-500/40 rounded-2xl flex items-center justify-center mb-4">
                     <KeyRound size={32} className="text-primary-400" />
                   </div>
-                  <h2 className="font-display text-2xl font-bold text-white text-center mb-1">Admin Verification</h2>
-                  <p className="text-white/60 text-center text-sm">{otpHint}</p>
+                  <h2 className="font-display text-2xl font-bold text-secondary-900 text-center mb-1">Admin Verification</h2>
+                  <p className="text-secondary-600 text-center text-sm">{otpHint}</p>
                 </div>
 
                 <form onSubmit={handleVerifyOTP} className="space-y-5">
                   <div>
-                    <label className="block text-white/80 text-sm font-medium mb-1.5">Enter 6-digit OTP</label>
+                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">Enter 6-digit OTP</label>
                     <input
                       required value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                       placeholder="• • • • • •" maxLength={6} autoComplete="one-time-code"
-                      className="w-full px-4 py-4 rounded-xl bg-white/10 border border-white/20 text-white text-center text-2xl font-mono tracking-[0.6em] placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
-                    <p className="text-white/40 text-xs text-center mt-2">OTP is valid for 10 minutes</p>
+                      className="w-full px-4 py-4 rounded-xl bg-white border border-gray-200 text-secondary-900 text-center text-2xl font-mono tracking-[0.6em] placeholder-secondary-300 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
+                    <p className="text-secondary-500 text-xs text-center mt-2">OTP is valid for 10 minutes</p>
                   </div>
 
                   <button type="submit" disabled={loading || otp.length !== 6}
@@ -158,7 +163,7 @@ export default function Login() {
                   </button>
 
                   <button type="button" onClick={() => { setOtpStep(false); setOtp(''); setPendingUserId('') }}
-                    className="w-full text-center text-white/50 hover:text-white text-sm transition-colors py-2">
+                    className="w-full text-center text-secondary-500 hover:text-secondary-700 text-sm transition-colors py-2">
                     ← Back to Login
                   </button>
                 </form>
@@ -167,11 +172,8 @@ export default function Login() {
           </AnimatePresence>
         </div>
 
-        <p className="mt-8 text-center text-white/70 text-sm">
-          Contact administrator for account access.
-        </p>
-        <p className="text-center text-white/50 text-xs mt-4">
-          <Link to="/" className="hover:text-white transition-colors">← Back to Home</Link>
+        <p className="mt-8 text-center text-secondary-600 text-sm">
+         <Link to="/contact" className="text-primary-600 hover:text-primary-700"> Contact administrator for account access.</Link>
         </p>
       </motion.div>
     </div>

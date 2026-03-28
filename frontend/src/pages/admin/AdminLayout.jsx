@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { Coffee, LayoutDashboard, Users, FileText, Calendar, MessageSquare, LogOut, Menu, X, ExternalLink, Bell, GraduationCap, Briefcase } from 'lucide-react'
 
 const navItems = [
-  { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+  { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard },
   { label: 'Users', path: '/admin/users', icon: Users },
   { label: 'Blogs', path: '/admin/blogs', icon: FileText },
   { label: 'Appointments', path: '/admin/appointments', icon: Calendar },
@@ -29,22 +29,22 @@ export default function AdminSidebar({ children }) {
         {/* Logo */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-gradient rounded-xl flex items-center justify-center">
-              <Coffee size={20} className="text-white" />
+            <div className="bg-primary-gradient rounded-full flex items-center justify-center">
+              <img src="/gallery/logo.png" alt="CareerCoffee Logo" className='w-14 h-14 rounded-full'/>
             </div>
             <div>
-              <p className="font-display font-bold text-secondary-900 text-sm">Caramel Career</p>
+              <p className="font-display font-bold text-secondary-900 text-xl">Career coffee</p>
               <p className="text-primary-600 text-xs">Admin Panel</p>
             </div>
           </div>
         </div>
 
         {/* User info */}
-        <div className="p-4 mx-4 mt-4 bg-primary-50 rounded-xl mb-2 border border-primary-200">
+        {/* <div className="p-4 mx-4 mt-4 bg-primary-50 rounded-xl mb-2 border border-primary-200">
           <div className="w-10 h-10 bg-primary-gradient rounded-full flex items-center justify-center text-white font-bold mb-2">{user?.name?.[0]}</div>
           <p className="text-secondary-900 font-semibold text-sm">{user?.name}</p>
           <p className="text-primary-600 text-xs capitalize">{user?.role}</p>
-        </div>
+        </div> */}
 
         {/* Nav */}
         <nav className="flex-1 p-4 space-y-1">
@@ -59,11 +59,11 @@ export default function AdminSidebar({ children }) {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 space-y-1">
-          <a href="/" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-secondary-600 hover:text-primary-600 text-sm transition-colors">
-            <ExternalLink size={16} /> View Website
-          </a>
+        <div className="p-4 mb-10 border-t border-gray-200 space-y-1">
+          <Link to="/"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-secondary-600 hover:text-primary-600 hover:bg-primary-50 text-sm transition-colors">
+             🏠 Home
+          </Link>
           <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-red-600 hover:bg-red-50 text-sm transition-colors">
             <LogOut size={16} /> Logout
           </button>
