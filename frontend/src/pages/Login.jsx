@@ -96,7 +96,7 @@ export default function Login() {
           </Link>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-lg">
+        <div className="bg-blue-50 glass backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-lg">
           <AnimatePresence mode="wait">
             {!otpStep ? (
               /* ── STEP 1: Credentials ── */
@@ -172,7 +172,7 @@ export default function Login() {
           </AnimatePresence>
         </div>
 
-        <p className="mt-8 text-center text-secondary-600 text-sm">
+        <p className="mt-8 text-center text-secondary-600 text-lg">
          <Link to="/contact" className="text-primary-600 hover:text-primary-700"> Contact administrator for account access.</Link>
         </p>
       </motion.div>

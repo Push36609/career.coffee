@@ -21,14 +21,14 @@ const transporter = nodemailer.createTransport({
  */
 transporter.verify((error, success) => {
   if (error) {
-    console.error("❌ SMTP CONFIGURATION ERROR:", error.message);
+    console.error(" SMTP CONFIGURATION ERROR:", error.message);
     console.log("--- TIPS TO FIX ---");
     console.log("1. Check SMTP_USER and SMTP_PASS in .env");
     console.log("2. Ensure Brevo SMTP is enabled");
     console.log("3. If port 587 → secure must be false");
     console.log("------------------");
   } else {
-    console.log("✅ SMTP server is ready to send emails");
+    console.log("SMTP server is ready to send emails");
   }
 });
 
@@ -62,11 +62,11 @@ export async function sendOTPEmail(email, otp, name) {
       `,
     });
 
-    console.log("✅ OTP Email Sent:", info.messageId);
+    console.log("  OTP Email Sent:", info.messageId);
     return true;
 
   } catch (error) {
-    console.error("❌ OTP Email Error:", error.message);
+    console.error("  OTP Email Error:", error.message);
 
     if (error.responseCode === 535) {
       console.error("SMTP Authentication Failed");
@@ -108,14 +108,59 @@ export async function sendContactEmail(contactData) {
       `,
     });
 
-    console.log("✅ Contact Email Sent:", info.messageId);
+    console.log("  Contact Email Sent:", info.messageId);
 
     return true;
 
   } catch (error) {
 
-    console.error("❌ Contact Email Error:", error.message);
+    console.error("  Contact Email Error:", error.message);
 
+    return false;
+  }
+}
+
+/**
+ * Send Appointment Confirmation Email
+ */
+export async function sendAppointmentConfirmationEmail(appointmentData) {
+  const senderEmail = process.env.SMTP_USER;
+  const { name, email, date, time, service } = appointmentData;
+
+  console.log(`[Mailer] Sending appointment confirmation email to ${email}...`);
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"CareerCoffee" <${senderEmail}>`,
+      to: email,
+      subject: "Your Appointment is Confirmed - CareerCoffee",
+      html: `
+        <div style="font-family: Arial; max-width: 500px; margin:auto; padding:20px; border:1px solid #e2e8f0; border-radius:8px;">
+          <h2 style="color:#0369a1;">Appointment Confirmed</h2>
+          <p>Hello <strong>${name}</strong>,</p>
+          <p>Your appointment has been successfully confirmed by our admin.</p>
+          
+          <div style="background:#f8fafc; padding:15px; border-radius:6px; margin:20px 0;">
+            <p style="margin: 0 0 10px 0;"><strong>Service:</strong> ${service || "Consultation"}</p>
+            <p style="margin: 0 0 10px 0;"><strong>Date:</strong> ${date || "N/A"}</p>
+            <p style="margin: 0;"><strong>Time:</strong> ${time || "N/A"}</p>
+          </div>
+          
+          <p>If you have any questions or need to reschedule, please contact us.</p>
+          
+          <p style="margin-top:20px; color:#64748b; font-size:14px;">
+            Best regards,<br/>
+            <strong>CareerCoffee Team</strong>
+          </p>
+        </div>
+      `,
+    });
+
+    console.log("Appointment Confirmation Email Sent:", info.messageId);
+    return true;
+
+  } catch (error) {
+    console.error("Appointment Confirmation Email Error:", error.message);
     return false;
   }
 }

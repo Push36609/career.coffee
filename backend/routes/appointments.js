@@ -1,6 +1,7 @@
 import express from "express";
 import { query, queryOne, run } from "../data/database.js";
 import authMiddleware from "../middleware/auth.js";
+import { sendAppointmentConfirmationEmail } from "../utils/mailer.js";
 
 const router = express.Router();
 
@@ -78,13 +79,29 @@ router.patch("/:id", authMiddleware, async (req, res) => {
     if (req.user.role !== "admin")
       return res.status(403).json({ error: "Admin access required" });
 
+    const appointmentId = req.params.id;
+    const newStatus = req.body.status;
+
+    // Fetch existing appointment to check status change and get details
+    const existingAppointment = await queryOne("SELECT * FROM appointments WHERE id = ?", [appointmentId]);
+    
+    if (!existingAppointment) {
+      return res.status(404).json({ error: "Appointment not found" });
+    }
+
     await run("UPDATE appointments SET status = ? WHERE id = ?", [
-      req.body.status,
-      req.params.id,
+      newStatus,
+      appointmentId,
     ]);
+
+    // Send confirmation email if status is changed to "confirmed"
+    if (newStatus === "confirmed" && existingAppointment.status !== "confirmed") {
+      await sendAppointmentConfirmationEmail(existingAppointment);
+    }
 
     res.json({ message: "Appointment status updated" });
   } catch (err) {
+    console.error("Error updating appointment status:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
