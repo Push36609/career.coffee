@@ -6,10 +6,12 @@ dotenv.config();
 /**
  * Create SMTP transporter
  */
+const port = Number(process.env.SMTP_PORT);
+
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: process.env.SMTP_PORT == 465,
+  port:587,
+  secure: false, // true only for port 587
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -21,7 +23,7 @@ const transporter = nodemailer.createTransport({
  */
 transporter.verify((error, success) => {
   if (error) {
-    console.error(" SMTP CONFIGURATION ERROR:", error.message);
+    console.error("SMTP CONFIGURATION ERROR:", error.message);
     console.log("--- TIPS TO FIX ---");
     console.log("1. Check SMTP_USER and SMTP_PASS in .env");
     console.log("2. Ensure Brevo SMTP is enabled");
@@ -62,11 +64,11 @@ export async function sendOTPEmail(email, otp, name) {
       `,
     });
 
-    console.log("  OTP Email Sent:", info.messageId);
+    console.log("OTP Email Sent:", info.messageId);
     return true;
 
   } catch (error) {
-    console.error("  OTP Email Error:", error.message);
+    console.error("OTP Email Error:", error.message);
 
     if (error.responseCode === 535) {
       console.error("SMTP Authentication Failed");
@@ -108,13 +110,13 @@ export async function sendContactEmail(contactData) {
       `,
     });
 
-    console.log("  Contact Email Sent:", info.messageId);
+    console.log("Contact Email Sent:", info.messageId);
 
     return true;
 
   } catch (error) {
 
-    console.error("  Contact Email Error:", error.message);
+    console.error("Contact Email Error:", error.message);
 
     return false;
   }
@@ -163,4 +165,47 @@ export async function sendAppointmentConfirmationEmail(appointmentData) {
     console.error("Appointment Confirmation Email Error:", error.message);
     return false;
   }
+}
+
+/**
+ * Send Appointment Cancellation Email
+ */
+export async function sendAppointmentCancellationEmail(data) {
+
+  const { name, email, date, time, service } = data
+  const senderEmail = process.env.SMTP_USER
+
+  try {
+
+    await transporter.sendMail({
+      from: `"CareerCoffee" <${senderEmail}>`,
+      to: email,
+      subject: "Appointment Cancelled - CareerCoffee",
+      html: `
+        <div style="font-family: Arial; padding:20px">
+
+          <h2 style="color:#dc2626">Appointment Cancelled</h2>
+
+          <p>Hello <strong>${name}</strong>,</p>
+
+          <p>Your appointment has been cancelled by our admin.</p>
+
+          <p><strong>Service:</strong> ${service}</p>
+          <p><strong>Date:</strong> ${date}</p>
+          <p><strong>Time:</strong> ${time}</p>
+
+          <p>If you want to book again please visit our website.</p>
+
+          <p>CareerCoffee Team</p>
+
+        </div>
+      `,
+    });
+
+    console.log("Cancellation email sent");
+
+  } catch (error) {
+    console.error("Cancellation email error:", error.message);
+  }
+
 }

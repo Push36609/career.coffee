@@ -1,7 +1,7 @@
 import express from "express";
 import { query, queryOne, run } from "../data/database.js";
 import authMiddleware from "../middleware/auth.js";
-import { sendAppointmentConfirmationEmail } from "../utils/mailer.js";
+import { sendAppointmentConfirmationEmail , sendAppointmentCancellationEmail  } from "../utils/mailer.js";
 
 const router = express.Router();
 
@@ -76,30 +76,46 @@ router.get("/user", authMiddleware, async (req, res) => {
 
 router.patch("/:id", authMiddleware, async (req, res) => {
   try {
+
     if (req.user.role !== "admin")
       return res.status(403).json({ error: "Admin access required" });
 
     const appointmentId = req.params.id;
     const newStatus = req.body.status;
 
-    // Fetch existing appointment to check status change and get details
-    const existingAppointment = await queryOne("SELECT * FROM appointments WHERE id = ?", [appointmentId]);
-    
-    if (!existingAppointment) {
+    // Get current appointment
+    const appointment = await queryOne(
+      "SELECT * FROM appointments WHERE id = ?",
+      [appointmentId]
+    );
+
+    if (!appointment) {
       return res.status(404).json({ error: "Appointment not found" });
     }
 
-    await run("UPDATE appointments SET status = ? WHERE id = ?", [
-      newStatus,
-      appointmentId,
-    ]);
+    // Update status
+    await run(
+      "UPDATE appointments SET status = ? WHERE id = ?",
+      [newStatus, appointmentId]
+    );
 
-    // Send confirmation email if status is changed to "confirmed"
-    if (newStatus === "confirmed" && existingAppointment.status !== "confirmed") {
-      await sendAppointmentConfirmationEmail(existingAppointment);
+    // Update local object
+    appointment.status = newStatus;
+
+    /*
+      SEND EMAIL BASED ON STATUS
+    */
+
+    if (newStatus === "confirmed" && appointment.status !== "confirmed") {
+      sendAppointmentConfirmationEmail(appointment).catch(console.error);
+    }
+
+    if (newStatus === "cancelled") {
+      sendAppointmentCancellationEmail(appointment).catch(console.error);
     }
 
     res.json({ message: "Appointment status updated" });
+
   } catch (err) {
     console.error("Error updating appointment status:", err);
     res.status(500).json({ error: "Server error" });

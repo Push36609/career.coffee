@@ -131,9 +131,9 @@ export default function InstagramFeed() {
       <div className="max-w-7xl mx-auto px-4">
 
         <iframe
-          src="//lightwidget.com/widgets/9ecb7dfaf07f59e989c67cdc3127a93a.html"
+          src="//lightwidget.com/widgets/a42e1c414c2451d5ada0fb06ec3d86af.html"
           scrolling="no"
-          allowTransparency="true"
+          
           className="lightwidget-widget w-full rounded-xl shadow-lg"
           style={{
             border: 0,

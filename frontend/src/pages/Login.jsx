@@ -129,11 +129,11 @@ export default function Login() {
                     {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <><LogIn size={18} /> Sign In</>}
                   </button>
 
-                  <div className="bg-primary-50 border border-primary-300 rounded-xl p-3 text-[11px] text-center">
+                  {/* <div className="bg-primary-50 border border-primary-300 rounded-xl p-3 text-[11px] text-center">
                     <p className="text-primary-700 font-bold mb-1 uppercase tracking-wider">Super Admin Login</p>
                     <p className="text-secondary-600">User ID: <span className="text-secondary-900 font-mono bg-primary-100 px-1.5 rounded">admin</span></p>
                     <p className="text-secondary-600">Password: <span className="text-secondary-900 font-mono bg-primary-100 px-1.5 rounded">36609ppal</span></p>
-                  </div>
+                  </div> */}
                 </form>
               </motion.div>
             ) : (

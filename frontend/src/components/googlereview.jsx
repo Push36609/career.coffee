@@ -8,12 +8,12 @@ import "swiper/css/autoplay"
 export default function GoogleReviews() {
   const [reviews, setReviews] = useState([])
 
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/api/google/reviews")
-  //     .then((res) => res.json())
-  //     .then((data) => setReviews(data))
-  //     .catch((err) => console.error(err))
-  // }, [])
+  useEffect(() => {
+    fetch("http://localhost:5000/api/google/reviews")
+      .then((res) => res.json())
+      .then((data) => setReviews(data))
+      .catch((err) => console.error(err))
+  }, [])
 
   return (
     <section className="py-16 bg-gray-50">
