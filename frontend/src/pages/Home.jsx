@@ -62,7 +62,7 @@ export default function Home() {
               </motion.p>
               <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
                 <Link to="/appointment" className="btn-primary flex items-center gap-2 text-base px-8 py-4">
-                  Book Free Consultation <ArrowRight size={18} />
+                  Book Consultation <ArrowRight size={18} />
                 </Link>
                 <Link to="/services" className="btn-outline border-secondary-900 text-secondary-900 hover:bg-secondary-900 hover:text-white text-base px-8 py-4">
                   Explore Services
@@ -96,7 +96,7 @@ export default function Home() {
                     <div className="w-12 h-12 bg-primary-gradient rounded-2xl flex items-center justify-center text-2xl">☕</div>
                     <div>
                       <p className="text-white font-semibold">Career Counselling Session</p>
-                      <p className="text-primary-100 text-sm">Book your free consultation today!</p>
+                      <p className="text-primary-100 text-sm">Book your consultation today!</p>
                     </div>
                   </div>
                   <div className="space-y-3 mb-6">
@@ -288,9 +288,9 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">Ready to Brew Your Success?</h2>
-            <p className="text-white/80 text-xl mb-10">Book a free consultation with our expert career counsellors today.</p>
+            <p className="text-white/80 text-xl mb-10">Book a consultation with our expert career counsellors today.</p>
             <Link to="/appointment" className="bg-white text-primary-700 font-bold px-10 py-4 rounded-full text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
-              Book Free Appointment <ArrowRight size={20} />
+              Book Appointment <ArrowRight size={20} />
             </Link>
           </motion.div>
         </div>

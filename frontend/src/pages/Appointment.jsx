@@ -66,7 +66,7 @@ export default function Appointment() {
             Book an <span className="text-gradient">Appointment</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-secondary-600 text-xl">
-            Schedule a free 30-minute consultation with our expert career counsellors.
+            Schedule a 30-minute consultation with our expert career counsellors.
           </motion.p>
         </div>
       </section>
@@ -133,7 +133,7 @@ export default function Appointment() {
                   placeholder="Any specific concerns or questions you'd like to discuss..." className="input-field resize-none" />
               </div>
               <button type="submit" disabled={submitting || !form.name || !form.email} className="btn-primary w-full py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                {submitting ? 'Booking...' : <><Coffee size={18} /> Book My Free Consultation</>}
+                {submitting ? 'Booking...' : <><Coffee size={18} /> Book My Consultation</>}
               </button>
             </form>
           </motion.div>

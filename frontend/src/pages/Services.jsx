@@ -111,7 +111,7 @@ export default function Services() {
       <section className="py-16 bg-primary-gradient text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="font-display text-4xl font-bold text-white mb-4">Ready to Get Started?</h2>
-          <p className="text-white/80 mb-8 text-lg">Book a free 30-minute consultation with our experts today.</p>
+          <p className="text-white/80 mb-8 text-lg">Book a 30-minute consultation with our experts today.</p>
           <Link to="/appointment" className="bg-white text-primary-700 font-bold px-10 py-4 rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
             Schedule Now <ArrowRight size={18} />
           </Link>
