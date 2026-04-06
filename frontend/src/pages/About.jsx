@@ -24,7 +24,7 @@ export default function About() {
   return (
     <div className="" >
       {/* Hero */}
-      <section className="relative pt-24 pb-10 border-b-2 bg-gradient-to-br from-primary-50 to-blue-50 overflow-hidden dotted-bg">
+      <section className="relative pt-32 pb-10 border-b-2 bg-gradient-to-br from-primary-50 to-blue-50 overflow-hidden dotted-bg">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 right-20 w-64 h-64 bg-primary-200/30 rounded-full blur-3xl animate-pulse-slow"></div>
         </div>

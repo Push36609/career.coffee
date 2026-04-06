@@ -47,12 +47,12 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-700/10 rounded-full blur-[120px]"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div variants={container} initial="hidden" animate="show">
               <motion.div variants={fadeUp}
-                className="inline-flex items-center gap-2 bg-primary-100 border border-primary-200 text-primary-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                <Bell size={14} /> All India Exam Alerts &amp; Career Guidance
+                className="inline-flex items-center gap-2 bg-primary-100 border border-primary-200 text-primary-700 px-4 py-2 rounded-full text-xl font-medium mb-6">
+                <span className="text-secondary-900">MSME Regn. No:-</span> <span className="underline">UDYAM-DL-02-0095480</span>
               </motion.div>
               <motion.h1 variants={fadeUp} className="font-display text-5xl lg:text-6xl xl:text-7xl font-bold text-secondary-900 leading-tight mb-6">
                 Brew Your <span className="text-gradient">Perfect</span> Career Path
@@ -70,6 +70,7 @@ export default function Home() {
               </motion.div>
               {/* Social proof */}
               <motion.div variants={fadeUp} className="flex items-center gap-4 mt-10">
+
                 <div className="flex -space-x-2">
                   {['👩‍🎓', '👨‍🎓', '👩‍💼', '👨‍💼'].map((e, i) => (
                     <div key={i} className="w-10 h-10 rounded-full bg-primary-gradient border-2 border-white flex items-center justify-center text-sm">{e}</div>
@@ -85,6 +86,10 @@ export default function Home() {
             {/* Hero card */}
             <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.7 }}
               className="relative hidden lg:block ">
+              <motion.div variants={fadeUp}
+                className="inline-flex items-center gap-2 bg-primary-100 border border-primary-200 text-primary-700 px-2 py-2 rounded-full text-sm font-medium mb-6">
+                <Bell size={14} /> All India Exam Alerts &amp; Career Guidance
+              </motion.div>
               <div className="relative w-full max-w-md mx-auto bg-gradient-to-br from-primary-200 to-secondary-200 rounded-3xl p-8">
                 <div className="glass rounded-3xl p-8 animate-float bg-primary-700/30 border border-primary-700/50">
                   <div className="flex items-center gap-3 mb-6">
@@ -275,7 +280,7 @@ export default function Home() {
 
       {/* ── Social Gallery ── */}
       <SocialGallery />
-   
+
       {/* <GoogleReviews /> */}
 
       {/* ── CTA ── */}

@@ -9,13 +9,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-               <div className="w-112 h-112 flex items-center justify-center transition-all duration-300">
-              <img src="./gallery/logo.png" alt="Career Coffee Logo" className="w-full h-full object-contain rounded-full" />
-            </div>
+            <div className="flex flex-col items-center gap-4 mb-4">
+              <div className="w-60 h-60 flex items-center justify-center transition-all duration-300">
+                <img src="./gallery/logo.png" alt="Career Coffee Logo" className="w-full h-full object-contain rounded-full" />
+              </div>
               <div>
                 <div className="font-display text-4xl font-bold">Career Coffee</div>
-                
+
               </div>
             </div>
             <p className="text-secondary-600 text-sm leading-relaxed mb-5">

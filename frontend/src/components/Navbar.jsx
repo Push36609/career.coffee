@@ -8,8 +8,8 @@ const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
-  { 
-    label: 'Alerts', 
+  {
+    label: 'Alerts',
     path: '/exam-alerts',
     dropdown: [
       { label: 'All Updates', path: '/exam-alerts' },
@@ -44,15 +44,15 @@ export default function Navbar() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-blue/95 backdrop-blur-md shadow-lg border-b border-gray-200' : 'bg-gradient-to-b from-white/80 to-transparent border-b border-gray-100'
       }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 py-3">
+        <div className="flex items-center justify-between h-22 py-4">
           {/* Logo */}
-          <Link to="/gallery/logo.png" className="flex items-center gap-2 group">
-            <div className="w-12 h-12 flex items-center justify-center transition-al l duration-300">
-              <img src="./gallery/logo.png" alt="Career Coffee Logo" className="w-full h-full object-contain rounded-full" />
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-24 h-24 flex items-center justify-center transition-all duration-300">
+              <img src="./gallery/logo.png" alt="Career Coffee Logo" className="w-full h-full rounded-full object-contain" />
             </div>
-            <div> 
-              <div className="font-display text-lg font-bold text-secondary-900 leading-tight">Career Coffee</div>
-              <div className="text-primary-600 text-xs font-medium tracking-widest uppercase"></div>
+            <div>
+              <div className="font-display text-3xl font-bold text-secondary-900 leading-tight">Career Coffee</div>
+              <div className="text-primary-600 text-xs font-medium tracking-widest uppercase">The Unfiltered Career Discussion</div>
             </div>
           </Link>
 
