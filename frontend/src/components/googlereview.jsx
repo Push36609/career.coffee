@@ -16,11 +16,12 @@ export default function GoogleReviews() {
           ></iframe>
 
           {/* White box covering watermark */}
-         <div className="absolute bottom-0 right-0 bg-gray-50 w-[180px] h-[50px] md:w-[220px] md:h-[60px]"></div>
+          <div className="absolute bottom-0 right-0 bg-gray-50 w-[180px] h-[50px] md:w-[220px] md:h-[60px]"></div>
 
         </div>
 
       </div>
     </section>
   );
+
 }

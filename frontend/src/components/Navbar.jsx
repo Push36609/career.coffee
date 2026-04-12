@@ -43,7 +43,7 @@ export default function Navbar() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-blue/95 backdrop-blur-md shadow-lg border-b border-gray-200' : 'bg-gradient-to-b from-white/80 to-transparent border-b border-gray-100'
       }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-22 py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
@@ -63,7 +63,7 @@ export default function Navbar() {
                 onMouseEnter={() => setActiveDropdown(link.label)}
                 onMouseLeave={() => setActiveDropdown(null)}>
                 <Link to={link.path}
-                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${location.pathname === link.path
+                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 ${location.pathname === link.path
                     ? 'text-primary-600 bg-primary-50'
                     : 'text-secondary-600 hover:text-primary-600 hover:bg-primary-50'
                     }`}>

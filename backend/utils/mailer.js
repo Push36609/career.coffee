@@ -38,7 +38,7 @@ transporter.verify((error, success) => {
  * Send OTP Email
  */
 export async function sendOTPEmail(email, otp, name) {
-  const senderEmail = process.env.SMTP_USER;
+  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
 
   console.log(`[Mailer] Sending OTP email to ${email}...`);
 
@@ -83,8 +83,8 @@ export async function sendOTPEmail(email, otp, name) {
  */
 export async function sendContactEmail(contactData) {
 
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@careercoffee.com";
-  const senderEmail = process.env.SMTP_USER;
+  const adminEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
+  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
 
   const { name, email, phone, subject, message } = contactData;
 
@@ -126,7 +126,7 @@ export async function sendContactEmail(contactData) {
  * Send Appointment Confirmation Email
  */
 export async function sendAppointmentConfirmationEmail(appointmentData) {
-  const senderEmail = process.env.SMTP_USER;
+  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
   const { name, email, date, time, service } = appointmentData;
 
   console.log(`[Mailer] Sending appointment confirmation email to ${email}...`);
@@ -173,7 +173,7 @@ export async function sendAppointmentConfirmationEmail(appointmentData) {
 export async function sendAppointmentCancellationEmail(data) {
 
   const { name, email, date, time, service } = data
-  const senderEmail = process.env.SMTP_USER
+  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in"
 
   try {
 
@@ -207,5 +207,46 @@ export async function sendAppointmentCancellationEmail(data) {
   } catch (error) {
     console.error("Cancellation email error:", error.message);
   }
+}
 
+/**
+ * Send Password Reset OTP Email
+ */
+export async function sendResetOTPEmail(email, otp, name) {
+  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
+
+  console.log(`[Mailer] Sending Password Reset OTP email to ${email}...`);
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"CareerCoffee Support" <${senderEmail}>`,
+      to: email,
+      subject: "Password Reset Code - CareerCoffee",
+      html: `
+        <div style="font-family: Arial; max-width: 480px; margin:auto; padding:32px; background:#fff7ed; border-radius:12px; border: 1px solid #ffedd5;">
+          <h2 style="color:#c2410c;">Password Reset Request</h2>
+          <p>Hello <strong>${name}</strong>,</p>
+          <p>We received a request to reset your password. Use the following code to proceed:</p>
+
+          <div style="font-size:40px;font-weight:bold;letter-spacing:10px;text-align:center;color:#ea580c; background:#ffedd5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            ${otp}
+          </div>
+
+          <p style="font-size:13px;color:#9a3412">
+            This code is valid for <strong>10 minutes</strong>. If you didn't request this, you can safely ignore this email.
+          </p>
+          
+          <hr style="border:none; border-top: 1px solid #ffedd5; margin: 20px 0;" />
+          <p style="font-size:12px; color:#9a3412; text-align:center;">CareerCoffee Security Team</p>
+        </div>
+      `,
+    });
+
+    console.log("Reset OTP Email Sent:", info.messageId);
+    return true;
+
+  } catch (error) {
+    console.error("Reset OTP Email Error:", error.message);
+    return false;
+  }
 }

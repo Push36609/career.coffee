@@ -1,5 +1,3 @@
-       
-
 import { useEffect } from "react";
 
 export default function InstagramFeed() {
@@ -40,22 +38,8 @@ export default function InstagramFeed() {
 
       {/* Instagram Feed */}
       <div className="max-w-7xl mx-auto px-4">
-
-        <iframe
-          src="//lightwidget.com/widgets/a42e1c414c2451d5ada0fb06ec3d86af.html"
-          scrolling="no"
-          
-          className="lightwidget-widget w-full rounded-xl shadow-lg"
-          style={{
-            border: 0,
-            overflow: "hidden",
-            height: "420px"
-          }}
-          title="Instagram Feed"
-        ></iframe>
-
+        <iframe src="https://cdn.lightwidget.com/widgets/a42e1c414c2451d5ada0fb06ec3d86af.html" scrolling="no" allowtransparency="true" className="lightwidget-widget" style={{ width: "100%", border: "0", overflow: "hidden" }}></iframe>
       </div>
-
     </section>
   );
 }
