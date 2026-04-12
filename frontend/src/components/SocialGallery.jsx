@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-
-=======
-       
->>>>>>> 7d33101080690dc5ca526221f3675e55ac5b7833
-
 import { useEffect } from "react";
 
 export default function InstagramFeed() {
@@ -44,10 +38,8 @@ export default function InstagramFeed() {
 
       {/* Instagram Feed */}
       <div className="max-w-7xl mx-auto px-4">
-
-        <iframe src="https://cdn.lightwidget.com/widgets/a42e1c414c2451d5ada0fb06ec3d86af.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style={{ width: "100%", border: "0", overflow: "hidden" }}></iframe>
+        <iframe src="https://cdn.lightwidget.com/widgets/a42e1c414c2451d5ada0fb06ec3d86af.html" scrolling="no" allowtransparency="true" className="lightwidget-widget" style={{ width: "100%", border: "0", overflow: "hidden" }}></iframe>
       </div>
-
     </section>
   );
 }
