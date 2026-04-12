@@ -212,9 +212,12 @@ export default function Home() {
         </section>
       )}
 
+	<GoogleReviews />
+
+
       {/* ── Testimonials ── */}
       {testimonials.length > 0 && (
-        <section className="py-24 pattern-bg">
+        <section className="py-5 pattern-bg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
               <p className="text-primary-500 font-semibold uppercase tracking-widest text-sm mb-3">Success Stories</p>
@@ -281,7 +284,7 @@ export default function Home() {
       {/* ── Social Gallery ── */}
       <SocialGallery />
 
-      {/* <GoogleReviews /> */}
+   
 
       {/* ── CTA ── */}
       <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700">

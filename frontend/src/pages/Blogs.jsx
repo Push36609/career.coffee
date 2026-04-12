@@ -34,7 +34,7 @@ export default function Blogs() {
 
   return (
     <div className="">
-      <section className="pt-20 pb-10 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
+      <section className="pt-28 pb-10 bg-gradient-to-br from-primary-50 to-blue-50 text-center relative overflow-hidden dotted-bg">
         <div className="relative max-w-3xl mx-auto px-4">
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="font-display text-5xl font-bold text-secondary-900 mb-4">
             Our <span className="text-gradient">Knowledge Hub</span>
