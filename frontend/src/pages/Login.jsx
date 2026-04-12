@@ -16,6 +16,10 @@ export default function Login() {
   const [otpHint, setOtpHint] = useState('')
   const [otp, setOtp] = useState('')
 
+  // Forgot Password state
+  const [forgotStep, setForgotStep] = useState('none') // 'none', 'request', 'reset'
+  const [resetForm, setResetForm] = useState({ user_id: '', otp: '', newPassword: '' })
+
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -49,10 +53,7 @@ export default function Login() {
     if (otp.length !== 6) { toast.error('Please enter a 6-digit OTP'); return }
     setLoading(true)
     try {
-      console.log('Sending OTP verification...', { user_id: pendingUserId, otp });
       const res = await api.post('/auth/verify-otp', { user_id: pendingUserId, otp })
-      console.log('Verification Success:', res.data);
-
       login(res.data.token, res.data.user)
       toast.success(`Welcome back, ${res.data.user.name}! 🔐`, { icon: <ShieldCheck size={18} className="text-green-400" /> })
 
@@ -61,11 +62,44 @@ export default function Login() {
         window.location.href = getRedirectPath(res.data.user.role);
       }, 500);
     } catch (err) {
-      console.error('Verification Error:', err.response?.data || err.message);
       toast.error(err.response?.data?.error || 'Verification failed')
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleForgotRequest = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const res = await api.post('/auth/forgot-password', { user_id: resetForm.user_id })
+      setPendingUserId(res.data.user_id || resetForm.user_id)
+      setForgotStep('reset')
+      toast.success('Reset code sent to your email!')
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Failed to send reset code')
+    } finally { setLoading(false) }
+  }
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault()
+    if (resetForm.otp.length !== 6) return toast.error('Enter 6-digit code')
+    if (resetForm.newPassword.length < 6) return toast.error('Password must be at least 6 characters')
+
+    setLoading(true)
+    try {
+      await api.post('/auth/reset-password', {
+        user_id: pendingUserId,
+        otp: resetForm.otp,
+        newPassword: resetForm.newPassword
+      })
+      toast.success('Password reset successful! Please login.')
+      setForgotStep('none')
+      setOtpStep(false)
+      setForm({ user_id: pendingUserId, password: '' })
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Reset failed')
+    } finally { setLoading(false) }
   }
 
   return (
@@ -87,7 +121,7 @@ export default function Login() {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex flex-col items-center gap-2">
             <div className="bg-primary-gradient rounded-full flex items-center justify-center shadow-2xl glow-primary">
-              <img src="/gallery/logo.png" alt="CareerCoffee Logo" className='w-20 h-20 rounded-full'/>
+              <img src="/gallery/logo.png" alt="CareerCoffee Logo" className='w-20 h-20 rounded-full' />
             </div>
             <div>
               <div className="font-display text-2xl font-bold text-secondary-900">CareerCoffee</div>
@@ -98,45 +132,52 @@ export default function Login() {
 
         <div className="bg-blue-50 glass backdrop-blur-md border border-gray-200 rounded-3xl p-8 shadow-lg">
           <AnimatePresence mode="wait">
-            {!otpStep ? (
-              /* ── STEP 1: Credentials ── */
-              <motion.div key="credentials" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <h2 className="font-display text-2xl font-bold text-secondary-900 text-center mb-2">Welcome Back</h2>
-                <p className="text-secondary-600 text-center text-sm mb-8">Sign in to access your dashboard</p>
-
-                <form onSubmit={handleSubmit} className="space-y-5">
+            {forgotStep === 'request' ? (
+              /* ── STEP 3: Forgot Request ── */
+              <motion.div key="forgot-req" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}>
+                <h2 className="font-display text-2xl font-bold text-secondary-900 text-center mb-2">Reset Password</h2>
+                <p className="text-secondary-600 text-center text-sm mb-8">Enter your User ID or Email to receive a reset code</p>
+                <form onSubmit={handleForgotRequest} className="space-y-5">
                   <div>
                     <label className="block text-secondary-700 text-sm font-medium mb-1.5">User ID or Email</label>
-                    <input required value={form.user_id} onChange={e => setForm(p => ({ ...p, user_id: e.target.value }))}
-                      placeholder="Enter User ID or Email" autoComplete="username"
-                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
+                    <input required value={resetForm.user_id} onChange={e => setResetForm(p => ({ ...p, user_id: e.target.value }))}
+                      placeholder="Enter User ID or Email" className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:outline-none transition-all" />
                   </div>
-                  <div>
-                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">Password</label>
-                    <div className="relative">
-                      <input required value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
-                        type={showPass ? 'text' : 'password'} placeholder="Enter your password" autoComplete="current-password"
-                        className="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-200 text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
-                      <button type="button" onClick={() => setShowPass(!showPass)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-500 hover:text-secondary-700 transition-colors">
-                        {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
-                      </button>
-                    </div>
-                  </div>
-
-                  <button type="submit" disabled={loading}
-                    className="btn-primary w-full py-3.5 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
-                    {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <><LogIn size={18} /> Sign In</>}
+                  <button type="submit" disabled={loading} className="btn-primary w-full py-3.5 flex items-center justify-center gap-2">
+                    {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Send Reset Code"}
                   </button>
-
-                  {/* <div className="bg-primary-50 border border-primary-300 rounded-xl p-3 text-[11px] text-center">
-                    <p className="text-primary-700 font-bold mb-1 uppercase tracking-wider">Super Admin Login</p>
-                    <p className="text-secondary-600">User ID: <span className="text-secondary-900 font-mono bg-primary-100 px-1.5 rounded">admin</span></p>
-                    <p className="text-secondary-600">Password: <span className="text-secondary-900 font-mono bg-primary-100 px-1.5 rounded">36609ppal</span></p>
-                  </div> */}
+                  <button type="button" onClick={() => setForgotStep('none')} className="w-full text-center text-secondary-500 hover:text-secondary-700 text-sm py-2">
+                    ← Back to Login
+                  </button>
                 </form>
               </motion.div>
-            ) : (
+            ) : forgotStep === 'reset' ? (
+              /* ── STEP 4: Forgot Reset ── */
+              <motion.div key="forgot-reset" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}>
+                <div className="text-center mb-6">
+                  <h2 className="font-display text-2xl font-bold text-secondary-900 mb-10">Create New Password</h2>
+                  <p className="text-secondary-600 text-sm mb-10">Enter the code sent to your email and your new password</p>
+                </div>
+                <form onSubmit={handleResetPassword} className="space-y-4">
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">6-Digit Code</label>
+                    <input required value={resetForm.otp} onChange={e => setResetForm(p => ({ ...p, otp: e.target.value.replace(/\D/g, '').slice(0, 6) }))}
+                      placeholder="• • • • • •" className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-center text-xl font-mono tracking-widest focus:ring-2 focus:ring-primary-400 focus:outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">New Password</label>
+                    <input required type="password" value={resetForm.newPassword} onChange={e => setResetForm(p => ({ ...p, newPassword: e.target.value }))}
+                      placeholder="Minimum 6 characters" className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 focus:ring-2 focus:ring-primary-400 focus:outline-none" />
+                  </div>
+                  <button type="submit" disabled={loading} className="btn-primary w-full py-3.5 flex items-center justify-center gap-2">
+                    {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Reset Password"}
+                  </button>
+                  <button type="button" onClick={() => setForgotStep('request')} className="w-full text-center text-secondary-500 hover:text-secondary-700 text-sm py-2">
+                    ← Back to Previous Step
+                  </button>
+                </form>
+              </motion.div>
+            ) : otpStep ? (
               /* ── STEP 2: OTP ── */
               <motion.div key="otp" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
                 <div className="flex flex-col items-center mb-6">
@@ -168,12 +209,50 @@ export default function Login() {
                   </button>
                 </form>
               </motion.div>
+            ) : (
+              /* ── STEP 1: Credentials ── */
+              <motion.div key="credentials" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                <h2 className="font-display text-2xl font-bold text-secondary-900 text-center mb-2">Welcome Back</h2>
+                <p className="text-secondary-600 text-center text-sm mb-8">Sign in to access your dashboard</p>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">User ID or Email</label>
+                    <input required value={form.user_id} onChange={e => setForm(p => ({ ...p, user_id: e.target.value }))}
+                      placeholder="Enter User ID or Email" autoComplete="username"
+                      className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-secondary-700 text-sm font-medium mb-1.5">Password</label>
+                    <div className="relative">
+                      <input required value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
+                        type={showPass ? 'text' : 'password'} placeholder="Enter your password" autoComplete="current-password"
+                        className="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-200 text-secondary-900 placeholder-secondary-400 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all" />
+                      <button type="button" onClick={() => setShowPass(!showPass)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-500 hover:text-secondary-700 transition-colors">
+                        {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                    <div className="flex justify-end mt-1.5">
+                      <button type="button" onClick={() => setForgotStep('request')}
+                        className="text-primary-600 hover:text-primary-700 text-xs font-medium">
+                        Forgot Password?
+                      </button>
+                    </div>
+                  </div>
+
+                  <button type="submit" disabled={loading}
+                    className="btn-primary w-full py-3.5 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                    {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <><LogIn size={18} /> Sign In</>}
+                  </button>
+                </form>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
 
         <p className="mt-8 text-center text-secondary-600 text-lg">
-         <Link to="/contact" className="text-primary-600 hover:text-primary-700"> Contact administrator for account access.</Link>
+          <Link to="/contact" className="text-primary-600 hover:text-primary-700"> Contact administrator for account access.</Link>
         </p>
       </motion.div>
     </div>

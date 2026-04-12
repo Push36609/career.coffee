@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import api from '../utils/api'
 import SocialGallery from '../components/SocialGallery.jsx'
 import GoogleReviews from '../components/googlereview.jsx'
+import AboutFounder from '../components/AboutFounder.jsx'
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.12 } } }
@@ -128,6 +129,8 @@ export default function Home() {
         </div>
       </section>
 
+
+
       {/* ── Stats ── */}
       <section className="py-16 bg-gradient-to-r from-sky-100 to-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -144,8 +147,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── About Founder ── */}
+      <AboutFounder />
+
       {/* ── Services ── */}
-      <section className="py-24 pattern-bg">
+      <section className="py-10 pattern-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
             <p className="text-primary-500 font-semibold uppercase tracking-widest text-sm mb-3">What We Offer</p>
@@ -212,9 +218,10 @@ export default function Home() {
         </section>
       )}
 
+      <GoogleReviews />
       {/* ── Testimonials ── */}
       {testimonials.length > 0 && (
-        <section className="py-24 pattern-bg">
+        <section className="py-5 pattern-bg">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
               <p className="text-primary-500 font-semibold uppercase tracking-widest text-sm mb-3">Success Stories</p>
@@ -281,7 +288,6 @@ export default function Home() {
       {/* ── Social Gallery ── */}
       <SocialGallery />
 
-      {/* <GoogleReviews /> */}
 
       {/* ── CTA ── */}
       <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
