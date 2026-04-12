@@ -218,7 +218,13 @@ export default function Home() {
         </section>
       )}
 
+
+      {/* <GoogleReviews /> */}
+
       <GoogleReviews />
+
+
+
       {/* ── Testimonials ── */}
       {testimonials.length > 0 && (
         <section className="py-5 pattern-bg">
@@ -287,6 +293,8 @@ export default function Home() {
 
       {/* ── Social Gallery ── */}
       <SocialGallery />
+
+
 
 
       {/* ── CTA ── */}
