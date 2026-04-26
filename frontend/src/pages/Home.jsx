@@ -3,9 +3,10 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Star, Award, Users, BookOpen, Bell, ChevronRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import api from '../utils/api'
-import SocialGallery from '../components/SocialGallery.jsx'
+// import SocialGallery from '../components/SocialGallery.jsx'
 import GoogleReviews from '../components/googlereview.jsx'
 import AboutFounder from '../components/AboutFounder.jsx'
+import Instagram from '../components/Instagram.jsx'
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.12 } } }
@@ -292,7 +293,10 @@ export default function Home() {
       )}
 
       {/* ── Social Gallery ── */}
-      <SocialGallery />
+      {/* <SocialGallery /> */}
+
+      {/* ── Instagram Slider ── */}
+      <Instagram />
 
 
 

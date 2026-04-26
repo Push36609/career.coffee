@@ -38,7 +38,7 @@ export default function InstagramFeed() {
 
       {/* Instagram Feed */}
       <div className="max-w-7xl mx-auto px-4">
-        <iframe src="https://cdn.lightwidget.com/widgets/a42e1c414c2451d5ada0fb06ec3d86af.html" scrolling="no" allowtransparency="true" className="lightwidget-widget" style={{ width: "100%", border: "0", overflow: "hidden" }}></iframe>
+        <iframe src="https://lightwidget.com/widgets/f2c53c74c63a5c4a90733f2998013b40.html" scrolling="no" allowtransparency="true" className="lightwidget-widget" style={{ width: "100%", border: "0", overflow: "hidden" }}></iframe>
       </div>
     </section>
   );

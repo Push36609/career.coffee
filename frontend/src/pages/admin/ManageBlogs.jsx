@@ -5,7 +5,7 @@ import api from '../../utils/api'
 import toast from 'react-hot-toast'
 import AdminLayout from './AdminLayout'
 import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+import 'quill/dist/quill.snow.css'
 
 const emptyBlog = { title: '', summary: '', content: '', category: '', published: 1 }
 const categories = ['Career Guidance', 'Exam Alerts', 'Study Abroad', 'Admissions', 'Scholarships', 'News']
