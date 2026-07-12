@@ -1,6 +1,6 @@
-require('dotenv').config();
-const { initDb, query } = require('./data/database');
-const { sendOTPEmail } = require('./utils/mailer');
+import 'dotenv/config';
+import { initDb, query } from './data/database.js';
+import { sendOTPEmail } from './utils/mailer.js';
 
 (async () => {
   try {

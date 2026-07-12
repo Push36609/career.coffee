@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { Menu, X, Coffee, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react'
+import { Menu, X, Coffee, ChevronDown, LogOut, LayoutDashboard, School } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinks = [
@@ -90,13 +90,19 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-3">
             {user ? (
               <div className="flex items-center gap-2">
-                {user.role === 'admin' ? (
+                {(user.role === 'admin' || user.role === 'superadmin') && (
                   <Link to="/admin" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-primary-600 hover:bg-primary-50 transition-colors">
                     <LayoutDashboard size={16} /> Admin Panel
                   </Link>
-                ) : (
-                  <Link to="/dashboard" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-primary-600 hover:bg-primary-5-50 transition-colors">
-                    {/* <LayoutDashboard size={16} /> Dashboard */}
+                )}
+                {(user.role === 'admin' || user.role === 'superadmin' || user.role === 'special') && (
+                  <Link to="/aps-dashboard" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 transition-colors">
+                    <School size={16} /> APS Dashboard
+                  </Link>
+                )}
+                {user.role === 'user' && (
+                  <Link to="/dashboard" className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-primary-600 hover:bg-primary-50 transition-colors">
+                    <LayoutDashboard size={16} /> Dashboard
                   </Link>
                 )}
                 <button onClick={handleLogout} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
@@ -144,9 +150,15 @@ export default function Navbar() {
               <div className="pt-3 border-t border-gray-200 space-y-2">
                 {user ? (
                   <>
-                    {user.role === 'admin' ? (
+                    {(user.role === 'admin' || user.role === 'superadmin') && (
                       <Link to="/admin" className="block px-3 py-2 text-primary-600 font-medium">Admin Panel</Link>
-                    ) : (
+                    )}
+                    {(user.role === 'admin' || user.role === 'superadmin' || user.role === 'special') && (
+                      <Link to="/aps-dashboard" className="flex items-center gap-2 px-3 py-2 text-blue-600 font-medium">
+                        <School size={16} /> APS Dashboard
+                      </Link>
+                    )}
+                    {user.role === 'user' && (
                       <Link to="/dashboard" className="block px-3 py-2 text-primary-600 font-medium">Dashboard</Link>
                     )}
                     <button onClick={handleLogout} className="block w-full text-left px-3 py-2 text-red-600 font-medium">Logout</button>

@@ -24,7 +24,11 @@ export default function Login() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const getRedirectPath = (role) => location.state?.from?.pathname || (role === 'admin' ? '/admin' : '/')
+  const getRedirectPath = (role) => {
+    if (role === 'admin' || role === 'superadmin') return '/admin'
+    if (role === 'special') return '/aps-dashboard'
+    return location.state?.from?.pathname || '/'
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()

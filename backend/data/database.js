@@ -46,12 +46,19 @@ export async function initDb() {
       name VARCHAR(200) NOT NULL,
       email VARCHAR(200),
       password_hash VARCHAR(300) NOT NULL,
+      raw_password VARCHAR(200),
       role VARCHAR(20) DEFAULT 'user',
       phone VARCHAR(30),
       address TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  try {
+    await pool.query("ALTER TABLE users ADD COLUMN raw_password VARCHAR(200)");
+  } catch (err) {
+    // Ignore error if column already exists
+  }
 
   /**
    * APPOINTMENTS
@@ -138,6 +145,30 @@ export async function initDb() {
       active TINYINT(1) DEFAULT 1
     )
   `);
+
+  /**
+   * APS EXAMS (Excel Upload)
+   */
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS aps_exams (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      exam_name VARCHAR(500) NOT NULL,
+      app_window VARCHAR(500),
+      exam_period VARCHAR(500),
+      colleges TEXT,
+      courses TEXT,
+      website VARCHAR(500),
+      stream VARCHAR(50),
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Add stream column if it doesn't exist (for existing tables)
+  try {
+    await pool.query("ALTER TABLE aps_exams ADD COLUMN stream VARCHAR(50)");
+  } catch (err) {
+    // Column already exists — ignore
+  }
 
   /**
    * OTP TABLE

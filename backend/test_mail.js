@@ -1,5 +1,5 @@
-const { sendContactEmail } = require('./utils/mailer');
-require('dotenv').config();
+import 'dotenv/config';
+import { sendContactEmail } from './utils/mailer.js';
 
 async function test() {
   console.log('--- SMTP Test Start ---');
@@ -26,6 +26,8 @@ async function test() {
   } catch (error) {
     console.error('🔥 Exception:', error);
   }
+
+  process.exit(0);
 }
 
 test();

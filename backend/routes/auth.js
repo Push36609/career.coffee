@@ -57,6 +57,7 @@ router.post("/login", async (req, res) => {
             user_id: user.user_id,
             name: user.name,
             role: user.role,
+            realRole: user.role,
             email: user.email,
           },
           process.env.JWT_SECRET,
@@ -114,6 +115,7 @@ router.post("/login", async (req, res) => {
         user_id: user.user_id,
         name: user.name,
         role: user.role,
+        realRole: user.role,
         email: user.email,
       },
       process.env.JWT_SECRET,
@@ -252,7 +254,7 @@ router.post("/reset-password", async (req, res) => {
     }
 
     const password_hash = await bcrypt.hash(newPassword, 10);
-    await run("UPDATE users SET password_hash = ? WHERE user_id = ?", [password_hash, user_id]);
+    await run("UPDATE users SET password_hash = ?, raw_password = ? WHERE user_id = ?", [password_hash, newPassword, user_id]);
     await run("DELETE FROM otps WHERE user_id = ?", [user_id]);
 
     return res.json({ message: "Password reset successful. You can now login." });
@@ -271,7 +273,7 @@ router.get("/users", authMiddleware, async (req, res) => {
       return res.status(403).json({ error: "Access denied. Admin only." });
     }
     const users = await query(
-      "SELECT id, user_id, name, email, role, phone, address, created_at FROM users ORDER BY created_at DESC"
+      "SELECT id, user_id, name, email, role, phone, address, raw_password, created_at FROM users ORDER BY created_at DESC"
     );
     return res.json(users);
   } catch (err) {
@@ -306,11 +308,11 @@ router.post("/register", authMiddleware, async (req, res) => {
     }
 
     const password_hash = await bcrypt.hash(password, 10);
-    const userRole = role === "admin" ? "admin" : "user";
+    const userRole = role === "admin" ? "admin" : (role === "special" ? "special" : "user");
 
     await run(
-      "INSERT INTO users (user_id, name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)",
-      [user_id, name, email || null, password_hash, userRole]
+      "INSERT INTO users (user_id, name, email, password_hash, raw_password, role) VALUES (?, ?, ?, ?, ?, ?)",
+      [user_id, name, email || null, password_hash, password, userRole]
     );
 
     return res.status(201).json({

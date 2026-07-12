@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { Coffee, LayoutDashboard, Users, FileText, Calendar, MessageSquare, LogOut, Menu, X, ExternalLink, Bell, GraduationCap, Briefcase } from 'lucide-react'
+import { Coffee, LayoutDashboard, Users, FileText, Calendar, MessageSquare, LogOut, Menu, X, ExternalLink, Bell, GraduationCap, Briefcase, ShieldCheck } from 'lucide-react'
 
 const navItems = [
   { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard },
@@ -14,8 +14,12 @@ const navItems = [
   { label: 'Internships', path: '/admin/internships', icon: Briefcase },
 ]
 
+const superAdminNavItems = [
+  { label: 'APS Exams', path: '/admin/aps-exams', icon: ShieldCheck },
+]
+
 export default function AdminSidebar({ children }) {
-  const { user, logout } = useAuth()
+  const { user, logout, isSuperAdmin } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
@@ -56,6 +60,23 @@ export default function AdminSidebar({ children }) {
               <Icon size={18} /> {label}
             </Link>
           ))}
+
+          {/* Superadmin-only section */}
+          {isSuperAdmin && (
+            <>
+              <div className="pt-3 pb-1 px-4">
+                <p className="text-xs font-bold text-secondary-400 uppercase tracking-widest">Super Admin</p>
+              </div>
+              {superAdminNavItems.map(({ label, path, icon: Icon }) => (
+                <Link key={path} to={path} onClick={() => setOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    location.pathname === path ? 'bg-primary-gradient text-white shadow-lg' : 'text-secondary-700 hover:bg-primary-50 hover:text-primary-600'
+                  }`}>
+                  <Icon size={18} /> {label}
+                </Link>
+              ))}
+            </>
+          )}
         </nav>
 
         {/* Footer */}
@@ -82,7 +103,7 @@ export default function AdminSidebar({ children }) {
           </button>
           <div className="hidden lg:block">
             <h1 className="font-display text-xl font-bold text-secondary-900">
-              {navItems.find(n => n.path === location.pathname)?.label || 'Admin'}
+              {[...navItems, ...superAdminNavItems].find(n => n.path === location.pathname)?.label || 'Admin'}
             </h1>
           </div>
           <div className="flex items-center gap-3 ml-auto">

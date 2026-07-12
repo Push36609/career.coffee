@@ -11,6 +11,7 @@ import blogRoutes from "./routes/blogs.js";
 import testimonialRoutes from "./routes/testimonials.js";
 import contactRoutes from "./routes/contacts.js";
 import examRoutes from "./routes/exams.js";
+import apsExamRoutes from "./routes/apsExams.js";
 
 dotenv.config();
 
@@ -55,6 +56,7 @@ initDb()
     app.use("/api/testimonials", testimonialRoutes);
     app.use("/api/contacts", contactRoutes);
     app.use("/api/exams", examRoutes);
+    app.use("/api/aps-exams", apsExamRoutes);
 
     app.get("/api/health", (req, res) =>
       res.json({

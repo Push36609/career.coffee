@@ -93,20 +93,23 @@ router.patch("/:id", authMiddleware, async (req, res) => {
       return res.status(404).json({ error: "Appointment not found" });
     }
 
+    // Save old status BEFORE updating so email condition check is correct
+    const oldStatus = appointment.status;
+
     // Update status
     await run(
       "UPDATE appointments SET status = ? WHERE id = ?",
       [newStatus, appointmentId]
     );
 
-    // Update local object
+    // Update local object for email templates
     appointment.status = newStatus;
 
     /*
       SEND EMAIL BASED ON STATUS
     */
 
-    if (newStatus === "confirmed" && appointment.status !== "confirmed") {
+    if (newStatus === "confirmed" && oldStatus !== "confirmed") {
       sendAppointmentConfirmationEmail(appointment).catch(console.error);
     }
 

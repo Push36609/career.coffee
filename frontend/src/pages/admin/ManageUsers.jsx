@@ -11,11 +11,11 @@ export default function ManageUsers() {
   const [form, setForm] = useState({ user_id: '', name: '', email: '', password: '', role: 'user' })
   const [creating, setCreating] = useState(false)
   const [showForm, setShowForm] = useState(false)
-  const [showPassMap, setShowPassMap] = useState({})
+  const [viewedCredentials, setViewedCredentials] = useState(null)
   const [newCredentials, setNewCredentials] = useState(null)
 
   const fetchUsers = () => {
-    api.get('/auth/users').then(r => setUsers(r.data)).catch(() => {}).finally(() => setLoading(false))
+    api.get('/auth/users').then(r => setUsers(r.data)).catch(() => { }).finally(() => setLoading(false))
   }
   useEffect(fetchUsers, [])
 
@@ -86,6 +86,7 @@ export default function ManageUsers() {
               <label className="block text-sm font-medium text-secondary-700 mb-1">Role</label>
               <select value={form.role} onChange={e => setForm(p => ({ ...p, role: e.target.value }))} className="input-field">
                 <option value="user">User</option>
+                <option value="special">APS Special User</option>
                 <option value="admin">Admin</option>
               </select>
             </div>
@@ -119,6 +120,27 @@ export default function ManageUsers() {
         </motion.div>
       )}
 
+      {/* Viewed Credentials Banner */}
+      {viewedCredentials && (
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+          className="card p-5 mb-6 border-2 border-blue-400 bg-blue-50">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="font-bold text-blue-800 mb-2">👁️ User Credentials:</p>
+              <div className="font-mono text-sm space-y-1">
+                <p className="text-secondary-800">User ID: <strong className="text-blue-700">{viewedCredentials.user_id}</strong>
+                  <button onClick={() => copyToClipboard(viewedCredentials.user_id)} className="ml-2 text-blue-600 hover:text-blue-800"><Copy size={14} className="inline" /></button>
+                </p>
+                <p className="text-secondary-800">Password: <strong className="text-blue-700">{viewedCredentials.raw_password || 'N/A'}</strong>
+                  <button onClick={() => copyToClipboard(viewedCredentials.raw_password || 'N/A')} className="ml-2 text-blue-600 hover:text-blue-800"><Copy size={14} className="inline" /></button>
+                </p>
+              </div>
+            </div>
+            <button onClick={() => setViewedCredentials(null)} className="text-blue-600 hover:text-blue-800 text-lg">✕</button>
+          </div>
+        </motion.div>
+      )}
+
       {/* Users Table */}
       <div className="card overflow-hidden">
         <div className="p-4 border-b border-primary-100">
@@ -139,15 +161,21 @@ export default function ManageUsers() {
               <tbody className="divide-y divide-primary-100">
                 {users.map(u => (
                   <tr key={u.id} className="hover:bg-primary-50/50 transition-colors">
-                    <td className="px-4 py-3"><code className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded font-mono text-xs">{u.user_id}</code></td>
+                    <td className="px-4 py-3">
+                      <code className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded font-mono text-xs">{u.user_id}</code>
+                    </td>
                     <td className="px-4 py-3 font-medium text-secondary-900">{u.name}</td>
                     <td className="px-4 py-3 text-secondary-600">{u.email || '—'}</td>
-                    <td className="px-4 py-3"><span className={`badge text-xs ${u.role === 'admin' ? 'bg-primary-100 text-primary-700' : 'bg-blue-100 text-blue-700'}`}>{u.role}</span></td>
+                    <td className="px-4 py-3"><span className={`badge text-xs ${u.role === 'admin' || u.role === 'superadmin' ? 'bg-primary-100 text-primary-700' : 'bg-blue-100 text-blue-700'}`}>{u.role === 'superadmin' ? 'admin' : u.role}</span></td>
                     <td className="px-4 py-3 text-secondary-400 text-xs">{new Date(u.created_at).toLocaleDateString('en-IN')}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3 flex gap-2">
                       <button onClick={() => handleDelete(u.id, u.name)}
-                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors">
+                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete User">
                         <Trash2 size={15} />
+                      </button>
+                      <button onClick={() => setViewedCredentials(u)}
+                        className="text-blue-400 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition-colors" title="View Credentials">
+                        <Eye size={15} />
                       </button>
                     </td>
                   </tr>

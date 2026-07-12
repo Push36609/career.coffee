@@ -19,13 +19,18 @@ import ManageBlogs from './pages/admin/ManageBlogs'
 import ManageAppointments from './pages/admin/ManageAppointments'
 import ManageTestimonials from './pages/admin/ManageTestimonials'
 import ManageExams from './pages/admin/ManageExams'
+import ManageApsExams from './pages/admin/ManageApsExams'
+import ApsDashboard from './pages/ApsDashboard'
 
-function ProtectedRoute({ children, adminOnly = false }) {
+function ProtectedRoute({ children, adminOnly = false, specialOnly = false, superAdminOnly = false }) {
   const { user, loading } = useAuth()
   const location = useLocation()
   if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-primary-400 border-t-transparent rounded-full animate-spin"></div></div>
   if (!user) return <Navigate to="/login" state={{ from: location }} replace />
-  if (adminOnly && user.role !== 'admin') return <Navigate to="/" replace />
+  const isAdminLike = user.role === 'admin' || user.role === 'superadmin'
+  if (superAdminOnly && user.role !== 'superadmin') return <Navigate to="/admin" replace />
+  if (adminOnly && !isAdminLike) return <Navigate to="/" replace />
+  if (specialOnly && user.role !== 'special' && !isAdminLike) return <Navigate to="/" replace />
   return children
 }
 
@@ -65,6 +70,9 @@ export default function App() {
           {/* User routes */}
           <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
 
+          {/* Special routes */}
+          <Route path="/aps-dashboard" element={<ProtectedRoute specialOnly><Layout><ApsDashboard /></Layout></ProtectedRoute>} />
+
           {/* Admin routes */}
           <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout><AdminDashboard /></AdminLayout></ProtectedRoute>} />
           <Route path="/admin/users" element={<ProtectedRoute adminOnly><AdminLayout><ManageUsers /></AdminLayout></ProtectedRoute>} />
@@ -74,6 +82,7 @@ export default function App() {
           <Route path="/admin/exams" element={<ProtectedRoute adminOnly><AdminLayout><ManageExams alertType="Exam Alert" pageTitle="Manage Exam Alerts" pageDesc="Add or update competitive exam details for students." /></AdminLayout></ProtectedRoute>} />
           <Route path="/admin/scholarships" element={<ProtectedRoute adminOnly><AdminLayout><ManageExams alertType="Scholarship" pageTitle="Manage Scholarships" pageDesc="Add or update scholarship alerts and details." /></AdminLayout></ProtectedRoute>} />
           <Route path="/admin/internships" element={<ProtectedRoute adminOnly><AdminLayout><ManageExams alertType="Government Internship" pageTitle="Manage Internships" pageDesc="Add or update government internship alerts." /></AdminLayout></ProtectedRoute>} />
+          <Route path="/admin/aps-exams" element={<ProtectedRoute superAdminOnly><AdminLayout><ManageApsExams /></AdminLayout></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
