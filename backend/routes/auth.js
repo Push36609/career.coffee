@@ -338,8 +338,8 @@ router.delete("/users/:id", authMiddleware, async (req, res) => {
         return res.status(404).json({ error: "User not found" });
     }
 
-    // Prevent deleting the default super admin
-    if (user.role === 'admin' && user.email === (process.env.ADMIN_EMAIL || "admin@careercoffee.com")) {
+    // Prevent deleting the default super admin or any superadmin role
+    if (user.role === 'superadmin' || (user.role === 'admin' && user.email === (process.env.ADMIN_EMAIL || "admin@careercoffee.com"))) {
         return res.status(403).json({ error: "Cannot delete the primary Super Admin" });
     }
     

@@ -144,7 +144,7 @@ export default function ManageUsers() {
       {/* Users Table */}
       <div className="card overflow-hidden">
         <div className="p-4 border-b border-primary-100">
-          <h3 className="font-semibold text-secondary-900">All Users ({users.length})</h3>
+          <h3 className="font-semibold text-secondary-900">All Users ({users.filter(u => u.role !== 'superadmin').length})</h3>
         </div>
         {loading ? (
           <div className="flex justify-center py-12"><div className="w-10 h-10 border-4 border-primary-400 border-t-transparent rounded-full animate-spin"></div></div>
@@ -159,7 +159,7 @@ export default function ManageUsers() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-primary-100">
-                {users.map(u => (
+                {users.filter(u => u.role !== 'superadmin').map(u => (
                   <tr key={u.id} className="hover:bg-primary-50/50 transition-colors">
                     <td className="px-4 py-3">
                       <code className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded font-mono text-xs">{u.user_id}</code>
@@ -169,14 +169,18 @@ export default function ManageUsers() {
                     <td className="px-4 py-3"><span className={`badge text-xs ${u.role === 'admin' || u.role === 'superadmin' ? 'bg-primary-100 text-primary-700' : 'bg-blue-100 text-blue-700'}`}>{u.role === 'superadmin' ? 'admin' : u.role}</span></td>
                     <td className="px-4 py-3 text-secondary-400 text-xs">{new Date(u.created_at).toLocaleDateString('en-IN')}</td>
                     <td className="px-4 py-3 flex gap-2">
-                      <button onClick={() => handleDelete(u.id, u.name)}
-                        className="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete User">
-                        <Trash2 size={15} />
-                      </button>
-                      <button onClick={() => setViewedCredentials(u)}
-                        className="text-blue-400 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition-colors" title="View Credentials">
-                        <Eye size={15} />
-                      </button>
+                      {u.role !== 'admin' && (
+                        <button onClick={() => handleDelete(u.id, u.name)}
+                          className="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete User">
+                          <Trash2 size={15} />
+                        </button>
+                      )}
+                      {u.role !== 'admin' && (
+                        <button onClick={() => setViewedCredentials(u)}
+                          className="text-blue-400 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition-colors" title="View Credentials">
+                          <Eye size={15} />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

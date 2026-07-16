@@ -44,46 +44,48 @@ export default function Navbar() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-blue/95 backdrop-blur-md shadow-lg border-b border-gray-200' : 'bg-gradient-to-b from-white/80 to-transparent border-b border-gray-100'
       }`}>
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-22 py-4">
+        <div className="flex items-center justify-between h-22 py-2">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-24 h-24 flex items-center justify-center transition-all duration-300">
               <img src="./gallery/logo.png" alt="Career Coffee Logo" className="w-full h-full rounded-full object-contain" />
             </div>
             <div>
-              <div className="font-display text-3xl font-bold text-secondary-900 leading-tight">Career Coffee</div>
-              <div className="text-primary-600 text-xs font-medium tracking-widest uppercase">The Unfiltered Career Discussion</div>
+              <div className="font-display text-2xl font-bold text-secondary-900 leading-tight">Career Coffee</div>
+              <div className="text-primary-600 text-[10px] font-medium tracking-widest uppercase">The Unfiltered Career Discussion</div>
             </div>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map(link => (
-              <div key={link.label} className="relative group"
-                onMouseEnter={() => setActiveDropdown(link.label)}
-                onMouseLeave={() => setActiveDropdown(null)}>
-                <Link to={link.path}
-                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 ${location.pathname === link.path
-                    ? 'text-primary-600 bg-primary-50'
-                    : 'text-secondary-600 hover:text-primary-600 hover:bg-primary-50'
-                    }`}>
-                  {link.label}
-                  {link.dropdown && <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />}
-                </Link>
-                {link.dropdown && activeDropdown === link.label && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 mt-1 w-52 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                    {link.dropdown.map(d => (
-                      <Link key={d.label} to={d.path}
-                        className="block px-4 py-2.5 text-sm text-secondary-600 hover:text-primary-600 hover:bg-primary-50 transition-colors">
-                        {d.label}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </div>
-            ))}
+            {navLinks
+              .filter(link => !(link.label === 'Contact' && (user?.role === 'admin' || user?.role === 'superadmin')))
+              .map(link => (
+                <div key={link.label} className="relative group"
+                  onMouseEnter={() => setActiveDropdown(link.label)}
+                  onMouseLeave={() => setActiveDropdown(null)}>
+                  <Link to={link.path}
+                    className={`flex items-center gap-1 px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 ${location.pathname === link.path
+                      ? 'text-primary-600 bg-primary-50'
+                      : 'text-secondary-600 hover:text-primary-600 hover:bg-primary-50'
+                      }`}>
+                    {link.label}
+                    {link.dropdown && <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />}
+                  </Link>
+                  {link.dropdown && activeDropdown === link.label && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                      className="absolute top-full left-0 mt-1 w-52 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                      {link.dropdown.map(d => (
+                        <Link key={d.label} to={d.path}
+                          className="block px-4 py-2.5 text-sm text-secondary-600 hover:text-primary-600 hover:bg-primary-50 transition-colors">
+                          {d.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </div>
+              ))}
           </nav>
 
           {/* Right Actions */}
@@ -105,16 +107,20 @@ export default function Navbar() {
                     <LayoutDashboard size={16} /> Dashboard
                   </Link>
                 )}
-                <button onClick={handleLogout} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
-                  <LogOut size={16} /> Logout
-                </button>
               </div>
             ) : (
-              <Link to="/login" className="text-sm text-secondary-600 hover:text-primary-600 transition-colors px-3 py-2">Login</Link>
+              <Link to="/login" className="text-base font-medium text-secondary-600 hover:text-primary-600 transition-colors px-4 py-2">Login</Link>
             )}
-            <Link to="/appointment" className="btn-primary text-sm py-2.5 px-5">
-              Book Appointment
-            </Link>
+            <div className="flex flex-col gap-1.5 min-w-[140px]">
+              <Link to="/appointment" className="btn-primary text-sm py-2 px-5 w-full text-center font-medium">
+                Book Appointment
+              </Link>
+              {user && (
+                <button onClick={handleLogout} className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-red-600 bg-white border border-red-200 hover:bg-red-50 hover:border-red-300 shadow-sm transition-all duration-200 w-full">
+                  <LogOut size={16} /> Logout
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Mobile Toggle */}
@@ -131,22 +137,24 @@ export default function Navbar() {
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-white/98 backdrop-blur-md border-t border-gray-200">
             <div className="px-4 py-4 space-y-1">
-              {navLinks.map(link => (
-                <div key={link.label}>
-                  <Link to={link.path} className="block px-3 py-2.5 rounded-lg text-secondary-600 hover:text-primary-600 hover:bg-primary-50 font-medium transition-colors">
-                    {link.label}
-                  </Link>
-                  {link.dropdown && (
-                    <div className="pl-4 space-y-1 mt-1">
-                      {link.dropdown.map(d => (
-                        <Link key={d.label} to={d.path} className="block px-3 py-2 rounded-lg text-secondary-500 hover:text-primary-600 text-sm transition-colors">
-                          {d.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+              {navLinks
+                .filter(link => !(link.label === 'Contact' && (user?.role === 'admin' || user?.role === 'superadmin')))
+                .map(link => (
+                  <div key={link.label}>
+                    <Link to={link.path} className="block px-3 py-2.5 rounded-lg text-secondary-600 hover:text-primary-600 hover:bg-primary-50 font-medium transition-colors">
+                      {link.label}
+                    </Link>
+                    {link.dropdown && (
+                      <div className="pl-4 space-y-1 mt-1">
+                        {link.dropdown.map(d => (
+                          <Link key={d.label} to={d.path} className="block px-3 py-2 rounded-lg text-secondary-500 hover:text-primary-600 text-sm transition-colors">
+                            {d.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
               <div className="pt-3 border-t border-gray-200 space-y-2">
                 {user ? (
                   <>
@@ -161,12 +169,18 @@ export default function Navbar() {
                     {user.role === 'user' && (
                       <Link to="/dashboard" className="block px-3 py-2 text-primary-600 font-medium">Dashboard</Link>
                     )}
-                    <button onClick={handleLogout} className="block w-full text-left px-3 py-2 text-red-600 font-medium">Logout</button>
                   </>
                 ) : (
-                  <Link to="/login" className="block px-3 py-2 text-secondary-600 font-medium">Login</Link>
+                  <Link to="/login" className="block px-4 py-3 text-lg text-secondary-600 font-medium text-center bg-gray-50 rounded-lg">Login</Link>
                 )}
-                <Link to="/appointment" className="btn-primary block text-center text-sm">Book Appointment</Link>
+                <div className="flex flex-col gap-2 pt-2">
+                  {user && (
+                    <button onClick={handleLogout} className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center justify-center gap-2">
+                      <LogOut size={18} /> Logout
+                    </button>
+                  )}
+                  <Link to="/appointment" className="btn-primary w-full text-center text-base py-3 font-medium">Book Appointment</Link>
+                </div>
               </div>
             </div>
           </motion.div>
