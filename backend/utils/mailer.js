@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { getAppointmentNotificationRecipient } from './notificationRecipient.js';
 
 dotenv.config();
 
@@ -28,7 +29,7 @@ const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, char => ({
 
 /** Notify the site owner after a booking is saved or confirmed. */
 export async function sendAppointmentNotificationEmail(appointment, event = 'booked') {
-  const recipient = process.env.APPOINTMENT_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL;
+  const recipient = getAppointmentNotificationRecipient();
   if (!recipient) {
     console.error('Appointment notification recipient is not configured.');
     return false;

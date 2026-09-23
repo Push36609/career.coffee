@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import { fileURLToPath } from 'node:url';
+import { getAppointmentNotificationRecipient } from '../utils/notificationRecipient.js';
 
 dotenv.config({ path: fileURLToPath(new URL('../.env', import.meta.url)) });
 
@@ -20,8 +21,8 @@ try {
   console.log('SMTP connection and authentication successful.');
   if (process.argv.includes('--send')) {
     const sender = process.env.SMTP_FROM_EMAIL;
-    const recipient = process.env.APPOINTMENT_NOTIFICATION_EMAIL;
-    if (!sender || !recipient) throw new Error('Set SMTP_FROM_EMAIL and APPOINTMENT_NOTIFICATION_EMAIL before sending a test.');
+    const recipient = getAppointmentNotificationRecipient();
+    if (!sender) throw new Error('Set SMTP_FROM_EMAIL before sending a test.');
     const result = await transporter.sendMail({
       from: { name: 'CareerCoffee', address: sender },
       to: recipient,
