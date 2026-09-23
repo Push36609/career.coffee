@@ -22,7 +22,15 @@ export default function ManageAppointments() {
   useEffect(fetchAppointments, [])
 
   const updateStatus = async (id, status) => {
-    try { await api.patch(`/appointments/${id}`, { status }); toast.success(`Status updated to "${status}"`); fetchAppointments() }
+    try {
+      const response = await api.patch(`/appointments/${id}`, { status });
+      if (Object.values(response.data.notifications || {}).includes('failed')) {
+        toast.error(`Status saved as "${status}", but an email could not be sent.`);
+      } else {
+        toast.success(`Status updated to "${status}"`);
+      }
+      fetchAppointments();
+    }
     catch { toast.error('Update failed') }
   }
 

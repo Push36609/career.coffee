@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 const services = [
   'Career Counselling', 'Workshops', 'College Admissions (India)', 'Study Abroad',
-  , 'Compliance Guidance', 'Psychometric Assessment'
+  'Compliance Guidance', 'Psychometric Assessment'
 ]
 const timeSlots = ['10:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '05:00 PM', '06:00 PM']
 
@@ -27,6 +27,10 @@ export default function Appointment() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (![form.name, form.email, form.service, form.date, form.time].every(value => value.trim())) {
+      toast.error('Please enter your name and email, and select a service, preferred date, and time.')
+      return
+    }
     setSubmitting(true)
     try {
       await api.post('/appointments', form)
@@ -100,32 +104,39 @@ export default function Appointment() {
                 <label className="block text-sm font-medium text-secondary-700 mb-1.5">School / College Name</label>
                 <input value={form.school_college} onChange={e => setField('school_college', e.target.value)} placeholder="Enter your school or college name" className="input-field" />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">Select Service *</label>
+              <fieldset>
+                <legend className="block text-sm font-medium text-secondary-700 mb-2">Select Service *</legend>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {services.map(s => (
-                    <button type="button" key={s} onClick={() => setField('service', s)}
-                      className={`p-2.5 rounded-xl border-2 text-xs font-medium text-left transition-all duration-200 ${form.service === s ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-primary-200 text-secondary-600 hover:border-primary-400'
-                        }`}>{s}</button>
+                    <label key={s} className="relative cursor-pointer">
+                      <input type="radio" name="service" value={s} required checked={form.service === s}
+                        onChange={e => setField('service', e.target.value)} className="peer sr-only" />
+                      <span
+                      className={`block h-full p-2.5 rounded-xl border-2 text-xs font-medium text-left transition-all duration-200 peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500 ${form.service === s ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-primary-200 text-secondary-600 hover:border-primary-400'
+                        }`}>{s}</span>
+                    </label>
                   ))}
                 </div>
-              </div>
+              </fieldset>
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-1.5"><Calendar size={15} className="inline mr-1" />Preferred Date</label>
-                  <input type="date" value={form.date} onChange={e => setField('date', e.target.value)}
+                  <label htmlFor="preferred-date" className="block text-sm font-medium text-secondary-700 mb-1.5"><Calendar size={15} className="inline mr-1" />Preferred Date *</label>
+                  <input id="preferred-date" required type="date" value={form.date} onChange={e => setField('date', e.target.value)}
                     min={new Date().toISOString().split('T')[0]} className="input-field" />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-1.5"><Clock size={15} className="inline mr-1" />Preferred Time</label>
+                <fieldset>
+                  <legend className="block text-sm font-medium text-secondary-700 mb-1.5"><Clock size={15} className="inline mr-1" />Preferred Time *</legend>
                   <div className="grid grid-cols-3 gap-1.5">
                     {timeSlots.slice(0, 6).map(t => (
-                      <button type="button" key={t} onClick={() => setField('time', t)}
-                        className={`py-1.5 rounded-lg text-xs font-medium border transition-all ${form.time === t ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-primary-200 text-secondary-600 hover:border-primary-400'
-                          }`}>{t}</button>
+                      <label key={t} className="relative cursor-pointer">
+                        <input type="radio" name="time" value={t} required checked={form.time === t}
+                          onChange={e => setField('time', e.target.value)} className="peer sr-only" />
+                        <span className={`block text-center py-1.5 rounded-lg text-xs font-medium border transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500 ${form.time === t ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-primary-200 text-secondary-600 hover:border-primary-400'
+                          }`}>{t}</span>
+                      </label>
                     ))}
                   </div>
-                </div>
+                </fieldset>
               </div>
               <div>
                 <label className="block text-sm font-medium text-secondary-700 mb-1.5">Additional Message</label>
