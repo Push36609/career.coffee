@@ -2,3 +2,5 @@ node_modules/
 .env
 backend/.env
 build/
+EMAIL_SETUP.md 
+CLAUDE.md

@@ -1,7 +1,7 @@
 import express from "express";
 import { query, queryOne, run } from "../data/database.js";
 import authMiddleware from "../middleware/auth.js";
-import { sendAppointmentConfirmationEmail , sendAppointmentCancellationEmail  } from "../utils/mailer.js";
+import { sendAppointmentConfirmationEmail, sendAppointmentCancellationEmail, sendAppointmentNotificationEmail } from "../utils/mailer.js";
 
 const router = express.Router();
 
@@ -19,8 +19,10 @@ router.post("/", async (req, res) => {
       message,
     } = req.body;
 
-    if (!name || !email)
-      return res.status(400).json({ error: "Name and email are required" });
+    const requiredFields = { name, email, service, date, time };
+    if (Object.values(requiredFields).some(value => typeof value !== 'string' || !value.trim())) {
+      return res.status(400).json({ error: "Name, email, service, preferred date and time are required" });
+    }
 
     const result = await run(
       "INSERT INTO appointments (name, email, phone, address, school_college, service, date, time, message) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -36,6 +38,12 @@ router.post("/", async (req, res) => {
         message,
       ]
     );
+
+    // Mail failure must never roll back a saved appointment or invite duplicate bookings.
+    const notified = await sendAppointmentNotificationEmail({
+      id: result.insertId, name, email, phone, address, school_college, service, date, time, message,
+    }).catch(() => false);
+    if (!notified) console.error(`Appointment ${result.insertId} saved, but admin email was not accepted.`);
 
     res.status(201).json({
       message: "Appointment booked successfully! We will contact you soon.",
@@ -82,6 +90,9 @@ router.patch("/:id", authMiddleware, async (req, res) => {
 
     const appointmentId = req.params.id;
     const newStatus = req.body.status;
+    if (!['pending', 'confirmed', 'completed', 'cancelled'].includes(newStatus)) {
+      return res.status(400).json({ error: 'Invalid appointment status' });
+    }
 
     // Get current appointment
     const appointment = await queryOne(
@@ -95,12 +106,18 @@ router.patch("/:id", authMiddleware, async (req, res) => {
 
     // Save old status BEFORE updating so email condition check is correct
     const oldStatus = appointment.status;
+    if (oldStatus === newStatus) {
+      return res.json({ message: 'Appointment status unchanged', notifications: {} });
+    }
 
     // Update status
-    await run(
-      "UPDATE appointments SET status = ? WHERE id = ?",
-      [newStatus, appointmentId]
+    const updated = await run(
+      "UPDATE appointments SET status = ? WHERE id = ? AND status = ?",
+      [newStatus, appointmentId, oldStatus]
     );
+    if (!updated.affectedRows) {
+      return res.status(409).json({ error: 'Appointment changed. Refresh and try again.' });
+    }
 
     // Update local object for email templates
     appointment.status = newStatus;
@@ -109,15 +126,22 @@ router.patch("/:id", authMiddleware, async (req, res) => {
       SEND EMAIL BASED ON STATUS
     */
 
-    if (newStatus === "confirmed" && oldStatus !== "confirmed") {
-      sendAppointmentConfirmationEmail(appointment).catch(console.error);
+    const notifications = {};
+    if (newStatus === "confirmed") {
+      const [customer, admin] = await Promise.allSettled([
+        sendAppointmentConfirmationEmail(appointment),
+        sendAppointmentNotificationEmail(appointment, 'confirmed'),
+      ]);
+      notifications.customer = customer.status === 'fulfilled' && customer.value ? 'accepted' : 'failed';
+      notifications.admin = admin.status === 'fulfilled' && admin.value ? 'accepted' : 'failed';
     }
 
     if (newStatus === "cancelled") {
-      sendAppointmentCancellationEmail(appointment).catch(console.error);
+      const sent = await sendAppointmentCancellationEmail(appointment).catch(() => false);
+      notifications.customer = sent ? 'accepted' : 'failed';
     }
 
-    res.json({ message: "Appointment status updated" });
+    res.json({ message: "Appointment status updated", notifications });
 
   } catch (err) {
     console.error("Error updating appointment status:", err);

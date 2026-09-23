@@ -6,17 +6,62 @@ dotenv.config();
 /**
  * Create SMTP transporter
  */
-const port = Number(process.env.SMTP_PORT);
+const port = Number(process.env.SMTP_PORT || 587);
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port:587,
-  secure: false, // true only for port 587
+  port,
+  secure: port === 465,
+  connectionTimeout: 15000,
+  greetingTimeout: 15000,
+  socketTimeout: 20000,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
 });
+
+const getSenderEmail = () => process.env.SMTP_FROM_EMAIL || process.env.ADMIN_EMAIL || "info@careercoffee.in";
+const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, char => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+}[char]));
+
+/** Notify the site owner after a booking is saved or confirmed. */
+export async function sendAppointmentNotificationEmail(appointment, event = 'booked') {
+  const recipient = process.env.APPOINTMENT_NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL;
+  if (!recipient) {
+    console.error('Appointment notification recipient is not configured.');
+    return false;
+  }
+  const title = event === 'confirmed' ? 'Appointment confirmed' : 'New appointment request';
+  const fields = {
+    'Appointment ID': appointment.id,
+    Status: event === 'confirmed' ? 'confirmed' : 'pending',
+    Name: appointment.name,
+    Email: appointment.email,
+    Phone: appointment.phone,
+    Service: appointment.service,
+    'Preferred date': appointment.date,
+    'Preferred time': appointment.time,
+    'School / college': appointment.school_college,
+    Address: appointment.address,
+    Message: appointment.message,
+  };
+  try {
+    const result = await transporter.sendMail({
+      from: { name: 'CareerCoffee', address: getSenderEmail() },
+      to: recipient,
+      replyTo: appointment.email,
+      subject: `${title} #${appointment.id} - CareerCoffee`,
+      text: `${title}\n\n${Object.entries(fields).map(([label, value]) => `${label}: ${value || 'Not provided'}`).join('\n')}`,
+      html: `<h2>${title}</h2>${Object.entries(fields).map(([label, value]) => `<p><strong>${label}:</strong> ${escapeHtml(value || 'Not provided')}</p>`).join('')}`,
+    });
+    return Boolean(result.accepted?.length) && !result.rejected?.length;
+  } catch (error) {
+    console.error('Appointment notification failed:', error.code || '', error.message);
+    return false;
+  }
+}
 
 /**
  * Verify SMTP connection
@@ -38,7 +83,7 @@ transporter.verify((error, success) => {
  * Send OTP Email
  */
 export async function sendOTPEmail(email, otp, name) {
-  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
+  const senderEmail = getSenderEmail();
 
   console.log(`[Mailer] Sending OTP email to ${email}...`);
 
@@ -84,7 +129,7 @@ export async function sendOTPEmail(email, otp, name) {
 export async function sendContactEmail(contactData) {
 
   const adminEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
-  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
+  const senderEmail = getSenderEmail();
 
   const { name, email, phone, subject, message } = contactData;
 
@@ -126,8 +171,11 @@ export async function sendContactEmail(contactData) {
  * Send Appointment Confirmation Email
  */
 export async function sendAppointmentConfirmationEmail(appointmentData) {
-  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
-  const { name, email, date, time, service } = appointmentData;
+  const senderEmail = getSenderEmail();
+  const { email } = appointmentData;
+  const { name, date, time, service } = Object.fromEntries(
+    ['name', 'date', 'time', 'service'].map(key => [key, escapeHtml(appointmentData[key])])
+  );
 
   console.log(`[Mailer] Sending appointment confirmation email to ${email}...`);
 
@@ -159,7 +207,7 @@ export async function sendAppointmentConfirmationEmail(appointmentData) {
     });
 
     console.log("Appointment Confirmation Email Sent:", info.messageId);
-    return true;
+    return Boolean(info.accepted?.length) && !info.rejected?.length;
 
   } catch (error) {
     console.error("Appointment Confirmation Email Error:", error.message);
@@ -172,12 +220,15 @@ export async function sendAppointmentConfirmationEmail(appointmentData) {
  */
 export async function sendAppointmentCancellationEmail(data) {
 
-  const { name, email, date, time, service } = data
-  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in"
+  const { email } = data;
+  const { name, date, time, service } = Object.fromEntries(
+    ['name', 'date', 'time', 'service'].map(key => [key, escapeHtml(data[key])])
+  );
+  const senderEmail = getSenderEmail();
 
   try {
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `"CareerCoffee" <${senderEmail}>`,
       to: email,
       subject: "Appointment Cancelled - CareerCoffee",
@@ -203,9 +254,11 @@ export async function sendAppointmentCancellationEmail(data) {
     });
 
     console.log("Cancellation email sent");
+    return Boolean(info.accepted?.length) && !info.rejected?.length;
 
   } catch (error) {
     console.error("Cancellation email error:", error.message);
+    return false;
   }
 }
 
@@ -213,7 +266,7 @@ export async function sendAppointmentCancellationEmail(data) {
  * Send Password Reset OTP Email
  */
 export async function sendResetOTPEmail(email, otp, name) {
-  const senderEmail = process.env.ADMIN_EMAIL || "info@careercoffee.in";
+  const senderEmail = getSenderEmail();
 
   console.log(`[Mailer] Sending Password Reset OTP email to ${email}...`);
 
